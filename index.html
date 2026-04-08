@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AG0027_PORTFOLIO.SYS</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0d0d1a;
+            --bg-light: #1b1b2f;
+            --primary-accent: #e94560;
+            --secondary-accent: #f9d342;
+            --terminal-green: #00ff41;
+            --font-pixel: 'Press Start 2P', cursive;
+            --font-main: 'VT323', monospace;
+            --glow: 0 0 10px rgba(0, 255, 65, 0.4);
+        }
+
+        /* CRT SCANLINE OVERLAY */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+            z-index: 200;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* SCREEN FLICKER */
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: rgba(18, 16, 16, 0.05);
+            opacity: 0;
+            z-index: 201;
+            pointer-events: none;
+            animation: flicker 0.12s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.1; }
+            100% { opacity: 0.15; }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        body {
+            background: radial-gradient(circle, var(--bg-light) 0%, var(--bg-dark) 100%);
+            color: #d1d1d1;
+            font-family: var(--font-main);
+            font-size: 1.6rem;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 3rem 1rem;
+            text-align: center;
+            border-bottom: 4px solid var(--primary-accent);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 {
+            font-family: var(--font-pixel);
+            font-size: 1.8rem;
+            color: var(--secondary-accent);
+            text-shadow: 4px 4px 0px #000, var(--glow);
+            margin-bottom: 1rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            margin-bottom: 5rem;
+            padding: 2.5rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 4px solid #fff;
+            box-shadow: 12px 12px 0px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Subtle glow for the boxes */
+        section {
+            border-color: rgba(255,255,255,0.8);
+        }
+
+        h2 {
+            font-family: var(--font-pixel);
+            color: var(--primary-accent);
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        strong {
+            color: var(--terminal-green);
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2rem;
+            background: var(--terminal-green);
+            margin-left: 5px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        footer {
+            text-align: center;
+            padding: 4rem 1rem;
+            border-top: 4px solid var(--primary-accent);
+            background: rgba(0, 0, 0, 0.4);
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-accent); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AG0027_LOG.SYS</h1>
+        <p style="font-family: var(--font-pixel); font-size: 0.7rem; color: var(--terminal-green);">[ PORTFOLIO ]</p>
+    </header>
+
+    <main>
+        <section id="about">
+            <h2>> WHO_AM_I?</h2>
+            <p>I’m not a designer—I’m a <strong>builder</strong> who uses modern tools to solve practical problems. I’m spending my "Level 40" era building the tools I actually want to use.</p>
+            <p>Bringing a decade of logic and a lot of "back in my day" patience to modern declarative programming.<span class="typing-cursor"></span></p>
+        </section>
+
+        <section id="stack">
+            <h2>> THE_STACK</h2>
+            <p>Focusing on logic over "eye-candy." I’m building applications born out of necessity with a focused toolkit:</p>
+            <p>📱 <strong>Jetpack Compose</strong> & taking a peek into <strong>Swift</strong>.<span class="typing-cursor"></span></p>
+        </section>
+
+        <section id="mission">
+            <h2>> THE_MISSION</h2>
+            <p>I’m tired of "mystery meat" software hidden behind paywalls without a trial, so I’m building my own.</p>
+            <p>You’re never too old to learn a new framework—just maybe too old to stay up until 3 AM debugging it.<span class="typing-cursor"></span></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 AG0027. ALL RIGHTS RESERVED.</p>
+        <p style="margin-top: 10px;">SYSTEM_STATUS: BUILDING...<span class="typing-cursor"></span></p>
+    </footer>
+
+</body>
+</html>
