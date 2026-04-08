@@ -3,182 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AG0027_PORTFOLIO.SYS</title>
+    <title>REBOOT.SYS // The Return</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Inter:wght@400;900&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-dark: #0d0d1a;
-            --bg-light: #1b1b2f;
-            --primary-accent: #e94560;
-            --secondary-accent: #f9d342;
-            --terminal-green: #00ff41;
-            --font-pixel: 'Press Start 2P', cursive;
-            --font-main: 'VT323', monospace;
-            --glow: 0 0 10px rgba(0, 255, 65, 0.4);
+            --bg: #050505;
+            --surface: #0f0f0f;
+            --border: #222;
+            --accent: #00ff41; 
+            --text-main: #e0e0e0;
+            --text-dim: #444; 
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Inter', sans-serif;
         }
 
-        /* CRT SCANLINE OVERLAY */
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
-            z-index: 200;
-            background-size: 100% 4px, 3px 100%;
-            pointer-events: none;
+        /* ANIMATION KEYFRAMES */
+        @keyframes scan-line {
+            0% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(1000px); opacity: 0; }
         }
 
-        /* SCREEN FLICKER */
-        body::after {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: rgba(18, 16, 16, 0.05);
-            opacity: 0;
-            z-index: 201;
-            pointer-events: none;
-            animation: flicker 0.12s infinite;
+        @keyframes text-flicker {
+            0% { opacity: 1; }
+            2% { opacity: 0.4; }
+            4% { opacity: 1; }
+            19% { opacity: 1; }
+            20% { opacity: 0.8; }
+            21% { opacity: 1; }
+            100% { opacity: 1; }
         }
 
-        @keyframes flicker {
-            0% { opacity: 0.1; }
-            100% { opacity: 0.15; }
+        @keyframes corner-ping {
+            0%, 90% { color: var(--text-dim); }
+            95% { color: var(--accent); }
+            100% { color: var(--text-dim); }
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: crosshair;
         }
 
         body {
-            background: radial-gradient(circle, var(--bg-light) 0%, var(--bg-dark) 100%);
-            color: #d1d1d1;
-            font-family: var(--font-main);
-            font-size: 1.6rem;
+            background-color: var(--bg);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: var(--text-main);
+            font-family: var(--font-sans);
             line-height: 1.6;
-            min-height: 100vh;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        header {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 3rem 1rem;
-            text-align: center;
-            border-bottom: 4px solid var(--primary-accent);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        body::before {
+            content: "5.9088° N, 116.1010° E // BUILD_VER_1.0";
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            animation: corner-ping 10s infinite;
         }
 
-        h1 {
-            font-family: var(--font-pixel);
-            font-size: 1.8rem;
-            color: var(--secondary-accent);
-            text-shadow: 4px 4px 0px #000, var(--glow);
-            margin-bottom: 1rem;
+        .sidebar-decor {
+            position: fixed;
+            right: 40px;
+            top: 20%;
+            bottom: 20%;
+            width: 1px;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-text {
+            transform: rotate(90deg);
+            white-space: nowrap;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-dim);
+            letter-spacing: 5px;
+            text-transform: uppercase;
         }
 
         main {
             max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1.5rem;
-        }
-
-        section {
-            margin-bottom: 5rem;
-            padding: 2.5rem;
-            background: rgba(0, 0, 0, 0.7);
-            border: 4px solid #fff;
-            box-shadow: 12px 12px 0px rgba(0,0,0,0.5);
+            margin: 0 auto;
             position: relative;
         }
 
-        /* Subtle glow for the boxes */
+        .flow-line {
+            position: absolute;
+            left: 100px;
+            top: 150px;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* Animated pulse inside the flow line */
+        .flow-line::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            animation: scan-line 4s linear infinite;
+        }
+
+        header {
+            border-bottom: 4px solid var(--text-main);
+            padding-bottom: 2rem;
+            margin-bottom: 6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        h1 {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 3.5rem;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            line-height: 0.9;
+            animation: text-flicker 8s infinite;
+        }
+
+        .status-box {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-align: right;
+            color: var(--accent);
+        }
+
         section {
-            border-color: rgba(255,255,255,0.8);
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            margin-bottom: 8rem;
+            position: relative;
         }
 
-        h2 {
-            font-family: var(--font-pixel);
-            color: var(--primary-accent);
-            font-size: 1.4rem;
-            margin-bottom: 2rem;
-            text-shadow: 2px 2px 0px #000;
+        .bg-num {
+            position: absolute;
+            left: -50px;
+            top: -20px;
+            font-size: 8rem;
+            font-family: var(--font-mono);
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.03);
+            z-index: -1;
+            user-select: none;
         }
 
-        p {
+        @media (max-width: 768px) {
+            section { grid-template-columns: 1fr; gap: 1rem; }
+            .bg-num { left: 0; font-size: 5rem; }
+            .sidebar-decor { display: none; }
+        }
+
+        .label {
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            padding-top: 0.5rem;
+        }
+
+        .content h2 {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
             margin-bottom: 1.5rem;
+            color: var(--accent);
         }
 
-        strong {
-            color: var(--terminal-green);
+        .content p {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
         }
 
-        .typing-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2rem;
-            background: var(--terminal-green);
-            margin-left: 5px;
-            animation: blink 0.8s infinite;
-            vertical-align: middle;
+        .highlight {
+            color: #fff;
+            font-weight: 900;
+            border-bottom: 2px solid var(--accent);
         }
 
-        @keyframes blink { 50% { opacity: 0; } }
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+
+        .project-card::after {
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 15px; height: 15px;
+            background: var(--border);
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            transition: background 0.4s ease;
+        }
+
+        .project-card:hover::after {
+            background: var(--accent);
+        }
+
+        .project-card h3 {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-list {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .loading {
+            font-family: var(--font-mono);
+            color: var(--accent);
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .dot { animation: blink 1.5s infinite; }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
 
         footer {
-            text-align: center;
-            padding: 4rem 1rem;
-            border-top: 4px solid var(--primary-accent);
-            background: rgba(0, 0, 0, 0.4);
-            font-family: var(--font-pixel);
+            margin-top: 8rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-family: var(--font-mono);
             font-size: 0.7rem;
-            color: #666;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
         }
-
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--primary-accent); }
+		
+		/* Find .sidebar-text and update the content */
+		.sidebar-text {
+		    transform: rotate(90deg);
+		    white-space: nowrap;
+		    font-family: var(--font-mono);
+		    font-size: 10px;
+		    color: var(--text-dim);
+		    letter-spacing: 5px;
+		    text-transform: uppercase;
+		    content: "PENAMPANG, SABAH // ARCHITECTING UTILITY"; /* Add this */
+		}
 
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>AG0027_LOG.SYS</h1>
-        <p style="font-family: var(--font-pixel); font-size: 0.7rem; color: var(--terminal-green);">[ PORTFOLIO ]</p>
-    </header>
+    <div class="sidebar-decor">
+        <span class="sidebar-text">LOGIC OVER EYE CANDY // ARCHITECTING UTILITY</span>
+    </div>
 
     <main>
-        <section id="about">
-            <h2>> WHO_AM_I?</h2>
-            <p>I’m not a designer—I’m a <strong>builder</strong> who uses modern tools to solve practical problems. I’m spending my "Level 40" era building the tools I actually want to use.</p>
-            <p>Bringing a decade of logic and a lot of "back in my day" patience to modern declarative programming.<span class="typing-cursor"></span></p>
+        <div class="flow-line"></div>
+
+        <header>
+            <h1>SYSTEM<br>REBOOT</h1>
+            <div class="status-box">
+                [ RETURNING TO THE WORKBENCH ]<br>
+				[ ORIGIN: PENAMPANG, SABAH ]<br>
+                [ PRIMARY STACK: COMPOSE ]<br>
+                STATUS: <span class="loading">RE-ENGAGED<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+            </div>
+        </header>
+
+        <section>
+            <div class="bg-num">01</div>
+            <div class="label">01 // THE_RE-ENTRY</div>
+            <div class="content">
+                <h2>A DECADE OF LOGIC, RE-COMPILED.</h2>
+                <p>
+                    I am returning to the craft after years away from the keyboard. The frameworks have changed, but <span class="highlight">the physics of clean architecture haven't.</span> 
+                </p>
+                <p>
+                    I’m not here to play with the latest shiny toys for the sake of it. I’m here to use my <span class="highlight">foundational experience</span> to build tools that actually work. No bloat, no mystery, just pure functional utility.
+                </p>
+            </div>
         </section>
 
-        <section id="stack">
-            <h2>> THE_STACK</h2>
-            <p>Focusing on logic over "eye-candy." I’m building applications born out of necessity with a focused toolkit:</p>
-            <p>📱 <strong>Jetpack Compose</strong> & taking a peek into <strong>Swift</strong>.<span class="typing-cursor"></span></p>
+        <section>
+            <div class="bg-num">02</div>
+            <div class="label">02 // CURRENT_BUILDS</div>
+            <div class="content">
+                <div class="project-card">
+                    <h3>JETPACK_COMPOSE_MODULE</h3>
+                    <p>Building high-performance Android utilities born out of personal necessity.</p>
+                    <div class="tech-list"><span>#KOTLIN</span> <span>#COMPOSE</span> <span>#STABLE</span></div>
+                </div>
+                <div class="project-card">
+                    <h3>SWIFT_LABS</h3>
+                    <p>Re-tooling for native iOS development. Testing the limits of declarative state management.</p>
+                    <div class="tech-list"><span>#SWIFTUI</span> <span>#RESEARCH</span></div>
+                </div>
+            </div>
         </section>
 
-        <section id="mission">
-            <h2>> THE_MISSION</h2>
-            <p>I’m tired of "mystery meat" software hidden behind paywalls without a trial, so I’m building my own.</p>
-            <p>You’re never too old to learn a new framework—just maybe too old to stay up until 3 AM debugging it.<span class="typing-cursor"></span></p>
+        <section>
+            <div class="bg-num">03</div>
+            <div class="label">03 // PHILOSOPHY</div>
+            <div class="content">
+                <p>
+                    I’ve spent enough time in the world to know that <span class="highlight">simple is hard.</span> I leverage my history in engineering to bypass the fluff and build software that solves problems without creating new ones.
+                </p>
+            </div>
         </section>
+
+        <footer>
+            <span>// END_OF_LOG</span>
+            <span>&copy; 2026 // BUILT_FOR_UTILITY</span>
+            <span>STK_04:99</span>
+        </footer>
     </main>
-
-    <footer>
-        <p>&copy; 2026 AG0027. ALL RIGHTS RESERVED.</p>
-        <p style="margin-top: 10px;">SYSTEM_STATUS: BUILDING...<span class="typing-cursor"></span></p>
-    </footer>
 
 </body>
 </html>
