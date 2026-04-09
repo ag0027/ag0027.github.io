@@ -19,7 +19,6 @@
             --font-sans: 'Inter', sans-serif;
         }
 
-        /* ANIMATION KEYFRAMES */
         @keyframes scan-line {
             0% { transform: translateY(-100%); opacity: 0; }
             50% { opacity: 1; }
@@ -113,7 +112,6 @@
             overflow: hidden;
         }
 
-        /* Animated pulse inside the flow line */
         .flow-line::after {
             content: "";
             position: absolute;
@@ -254,10 +252,19 @@
             color: var(--accent);
         }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .dot { animation: blink 1.5s infinite; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
+		@keyframes blink { 
+		    0%, 100% { opacity: 1; } 
+		    50% { opacity: 0; } 
+		}
+
+		.dot { 
+		    animation: blink 1.2s infinite; 
+		    display: inline-block; 
+		}
+
+		.dot:nth-child(1) { animation-delay: 0.0s; }
+		.dot:nth-child(2) { animation-delay: 0.2s; }
+		.dot:nth-child(3) { animation-delay: 0.4s; }
 
         footer {
             margin-top: 8rem;
@@ -270,7 +277,6 @@
             justify-content: space-between;
         }
 		
-		/* Find .sidebar-text and update the content */
 		.sidebar-text {
 		    transform: rotate(90deg);
 		    white-space: nowrap;
@@ -279,7 +285,7 @@
 		    color: var(--text-dim);
 		    letter-spacing: 5px;
 		    text-transform: uppercase;
-		    content: "PENAMPANG, SABAH // ARCHITECTING UTILITY"; /* Add this */
+		    content: "PENAMPANG, SABAH // ARCHITECTING UTILITY";
 		}
 
     </style>
@@ -287,7 +293,7 @@
 <body>
 
     <div class="sidebar-decor">
-        <span class="sidebar-text">LOGIC OVER EYE CANDY // ARCHITECTING UTILITY</span>
+        <span class="sidebar-text">STATION_ORIGIN: PENAMPANG // 116.1010° E // 04:00_AM_LOGIC</span>
     </div>
 
     <main>
@@ -296,57 +302,57 @@
         <header>
             <h1>SYSTEM<br>REBOOT</h1>
             <div class="status-box">
-                [ RETURNING TO THE WORKBENCH ]<br>
-				[ ORIGIN: PENAMPANG, SABAH ]<br>
-                [ PRIMARY STACK: COMPOSE ]<br>
+                [ HUMAN UPTIME: 40_YEARS ]<br>
+                [ ORIGIN: PENAMPANG, SABAH ]<br>
+                [ ENV: COMPOSE // SWIFT ]<br>
                 STATUS: <span class="loading">RE-ENGAGED<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
             </div>
         </header>
 
         <section>
             <div class="bg-num">01</div>
-            <div class="label">01 // THE_RE-ENTRY</div>
+            <div class="label">01 // THE_INITIATION</div>
             <div class="content">
-                <h2>A DECADE OF LOGIC, RE-COMPILED.</h2>
+                <h2>DECOUPLED FROM TRENDS.</h2>
                 <p>
-                    I am returning to the craft after years away from the keyboard. The frameworks have changed, but <span class="highlight">the physics of clean architecture haven't.</span> 
+                    Re-engaging the craft with a focus on <span class="highlight">low-level utility.</span> I architect tools as workbench essentials, prioritizing system stability over aesthetic noise. This era is dedicated to custom tooling—built on logic that outlasts the framework of the month.
                 </p>
                 <p>
-                    I’m not here to play with the latest shiny toys for the sake of it. I’m here to use my <span class="highlight">foundational experience</span> to build tools that actually work. No bloat, no mystery, just pure functional utility.
+                    Applying a grounded, systems-first methodology to the modern declarative landscape. I solve for <span class="highlight">architectural integrity</span> during the hours most others are offline.
                 </p>
             </div>
         </section>
 
         <section>
             <div class="bg-num">02</div>
-            <div class="label">02 // CURRENT_BUILDS</div>
+            <div class="label">02 // THE_MANDATE</div>
             <div class="content">
                 <div class="project-card">
-                    <h3>JETPACK_COMPOSE_MODULE</h3>
-                    <p>Building high-performance Android utilities born out of personal necessity.</p>
-                    <div class="tech-list"><span>#KOTLIN</span> <span>#COMPOSE</span> <span>#STABLE</span></div>
+                    <h3>WORKFLOW_AUTONOMY</h3>
+                    <p>Engineering high-performance alternatives to restrictive, opaque software models. Focused on total functional transparency and user-centric logic.</p>
+                    <div class="tech-list"><span>#KOTLIN</span> <span>#COMPOSE</span> <span>#NATIVE_BUILD</span></div>
                 </div>
                 <div class="project-card">
-                    <h3>SWIFT_LABS</h3>
-                    <p>Re-tooling for native iOS development. Testing the limits of declarative state management.</p>
-                    <div class="tech-list"><span>#SWIFTUI</span> <span>#RESEARCH</span></div>
+                    <h3>BESPOKE_UTILITIES</h3>
+                    <p>Proprietary builds engineered for specific process gaps. If the existing market tools fail the workflow, I architect the replacement.</p>
+                    <div class="tech-list"><span>#PROPRIETARY</span> <span>#LOGIC_STABLE</span></div>
                 </div>
             </div>
         </section>
 
         <section>
             <div class="bg-num">03</div>
-            <div class="label">03 // PHILOSOPHY</div>
+            <div class="label">03 // EXECUTION</div>
             <div class="content">
                 <p>
-                    I’ve spent enough time in the world to know that <span class="highlight">simple is hard.</span> I leverage my history in engineering to bypass the fluff and build software that solves problems without creating new ones.
+                    Complexity is common; <span class="highlight">precision is rare.</span> I maintain the stamina to stay up until the logic is flawless and the system is stable. In this workshop, if it isn't functional, it doesn't ship.
                 </p>
             </div>
         </section>
 
         <footer>
             <span>// END_OF_LOG</span>
-            <span>&copy; 2026 // BUILT_FOR_UTILITY</span>
+            <span>&copy; 2026 // STATION_ORIGIN_BKI</span>
             <span>STK_04:99</span>
         </footer>
     </main>
