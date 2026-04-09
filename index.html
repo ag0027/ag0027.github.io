@@ -163,7 +163,6 @@
 
         @media (max-width: 768px) {
             section { grid-template-columns: 1fr; gap: 1rem; }
-            .bg-num { left: 0; font-size: 5rem; }
             .sidebar-decor { display: none; }
         }
 
@@ -269,15 +268,16 @@
             justify-content: space-between;
         }
 		
-		.sidebar-text {
-		    transform: rotate(90deg);
-		    white-space: nowrap;
-		    font-family: var(--font-mono);
-		    font-size: 10px;
-		    color: var(--text-dim);
-		    letter-spacing: 5px;
-		    text-transform: uppercase;
-		    content: "PENAMPANG, SABAH // ARCHITECTING UTILITY";
+		.loading-bar {
+		    display: inline-block;
+		    clip-path: inset(0 100% 0 0); /* Start with the bar hidden */
+		    animation: fill-bar 2s steps(10) infinite; /* steps(10) makes it jump bar-by-bar */
+		}
+
+		@keyframes fill-bar {
+		    to {
+		        clip-path: inset(0 0 0 0); /* Reveal the whole bar */
+		    }
 		}
 
     </style>
@@ -297,7 +297,7 @@
                 [ HUMAN UPTIME: 40_YEARS ]<br>
                 [ ORIGIN: PENAMPANG, SABAH ]<br>
                 [ ENV: COMPOSE // SWIFT ]<br>
-                STATUS: <span class="loading">RE-ENGAGED<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
+                STATUS : [<span class="loading-bar">||||||||||</span>]
             </div>
         </header>
 
