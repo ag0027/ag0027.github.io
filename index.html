@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ag0027</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#0B0722;
@@ -18,24 +18,13 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 
+/* SKY — lives on the body itself, so it is always painted */
 body{
-  background:#140A2E;
   color:var(--cream);
-  font-family:'VT323',ui-monospace,monospace;
+  font-family:'VT323','Courier New',monospace;
   overflow-x:hidden;
-}
-
-/* ═══════════════════════════════════════════
-   THE SCENE — every layer is plain CSS.
-   No canvas, no script, nothing to fail.
-   ═══════════════════════════════════════════ */
-.world{position:fixed;inset:0;overflow:hidden;pointer-events:none}
-.world > *{position:absolute}
-
-/* ── sky: hard-stopped bands ─────────────── */
-.sky{
-  inset:0;
-  background:linear-gradient(180deg,
+  background-color:#140A2E;
+  background-image:linear-gradient(180deg,
     #140A2E 0%,   #140A2E 8%,
     #2A1052 8%,   #2A1052 17%,
     #4B1560 17%,  #4B1560 26%,
@@ -46,59 +35,58 @@ body{
     #FFB84A 51%,  #FFB84A 54%,
     #FFE196 54%,  #FFE196 56%,
     #1A0E33 56%,  #1A0E33 100%);
+  background-attachment:fixed;
+  background-size:100% 100%;
+  background-repeat:no-repeat;
 }
 
-/* dither texture over the band edges */
-.dither{
-  inset:0;
-  opacity:.30;
-  background-image:
-    repeating-linear-gradient(0deg,  rgba(255,255,255,.10) 0 2px, transparent 2px 4px),
-    repeating-linear-gradient(90deg, rgba(0,0,0,.14) 0 2px, transparent 2px 4px);
-}
+/* ══ ANIMATED LAYERS ══ */
+.lyr{position:fixed;pointer-events:none}
 
-/* ── stars ───────────────────────────────── */
-.stars{
-  top:0;left:0;width:1px;height:1px;
-  box-shadow:67.59vw 9.66vh 0 0 rgba(255,241,220,0.25),69.69vw 36.92vh 0 0 rgba(255,241,220,0.70),19.73vw 14.16vh 0 0 rgba(255,241,220,0.40),49.01vw 42.60vh 0 0 rgba(255,241,220,0.48),5.31vw 34.97vh 0 0 rgba(255,241,220,0.43),16.42vw 22.86vh 0 0 rgba(255,241,220,0.56),24.16vw 27.20vh 0 0 rgba(255,241,220,0.81),15.67vw 9.35vh 0 0 rgba(255,241,220,0.50),74.86vw 3.89vh 0 0 rgba(255,241,220,0.35),65.15vw 11.91vh 0 0 rgba(255,241,220,0.27),65.66vw 0.06vh 0 0 rgba(255,241,220,0.54),80.84vw 23.15vh 0 0 rgba(255,241,220,0.42),30.22vw 32.82vh 0 0 rgba(255,241,220,0.65),15.32vw 21.72vh 0 0 rgba(255,241,220,0.55),42.08vw 7.43vh 0 0 rgba(255,241,220,0.44),13.71vw 17.25vh 0 0 rgba(255,241,220,0.29),86.67vw 43.80vh 0 0 rgba(255,241,220,0.75),60.14vw 20.22vh 0 0 rgba(255,241,220,0.51),86.40vw 40.60vh 0 0 rgba(255,241,220,0.49),19.70vw 43.03vh 0 0 rgba(255,241,220,0.28),8.02vw 0.10vh 0 0 rgba(255,241,220,0.42),83.32vw 38.12vh 0 0 rgba(255,241,220,0.52),76.48vw 12.20vh 0 0 rgba(255,241,220,0.85),78.79vw 35.57vh 0 0 rgba(255,241,220,0.74),28.75vw 17.31vh 0 0 rgba(255,241,220,0.49),96.30vw 4.40vh 0 0 rgba(255,241,220,0.41),43.28vw 32.89vh 0 0 rgba(255,241,220,0.38),68.80vw 26.04vh 0 0 rgba(255,241,220,0.44),2.36vw 41.74vh 0 0 rgba(255,241,220,0.68),78.83vw 21.25vh 0 0 rgba(255,241,220,0.72),43.31vw 11.92vh 0 0 rgba(255,241,220,0.70),88.49vw 27.32vh 0 0 rgba(255,241,220,0.65),29.94vw 33.04vh 0 0 rgba(255,241,220,0.53),71.93vw 37.93vh 0 0 rgba(255,241,220,0.69),21.10vw 12.45vh 0 0 rgba(255,241,220,0.33),35.93vw 41.56vh 0 0 rgba(255,241,220,0.42),35.18vw 43.67vh 0 0 rgba(255,241,220,0.36),99.61vw 31.76vh 0 0 rgba(255,241,220,0.79),11.61vw 0.06vh 0 0 rgba(255,241,220,0.60),84.82vw 42.34vh 0 0 rgba(255,241,220,0.80),62.26vw 6.88vh 0 0 rgba(255,241,220,0.54),39.66vw 30.98vh 0 0 rgba(255,241,220,0.47),37.04vw 20.71vh 0 0 rgba(255,241,220,0.51),50.73vw 9.05vh 0 0 rgba(255,241,220,0.38),29.92vw 30.40vh 0 0 rgba(255,241,220,0.68),80.20vw 17.95vh 0 0 rgba(255,241,220,0.82),53.55vw 15.62vh 0 0 rgba(255,241,220,0.59),10.01vw 27.95vh 0 0 rgba(255,241,220,0.31),11.16vw 19.41vh 0 0 rgba(255,241,220,0.78),34.77vw 36.31vh 0 0 rgba(255,241,220,0.71),84.34vw 22.91vh 0 0 rgba(255,241,220,0.75),29.82vw 7.88vh 0 0 rgba(255,241,220,0.81),94.98vw 19.49vh 0 0 rgba(255,241,220,0.33),63.81vw 40.37vh 0 0 rgba(255,241,220,0.60),14.43vw 24.81vh 0 0 rgba(255,241,220,0.57),11.14vw 25.83vh 0 0 rgba(255,241,220,0.62),72.56vw 9.08vh 0 0 rgba(255,241,220,0.32),71.27vw 26.22vh 0 0 rgba(255,241,220,0.48),62.58vw 7.41vh 0 0 rgba(255,241,220,0.58),4.20vw 8.17vh 0 0 rgba(255,241,220,0.55),2.63vw 28.38vh 0 0 rgba(255,241,220,0.81),20.94vw 37.76vh 0 0 rgba(255,241,220,0.67),8.22vw 4.50vh 0 0 rgba(255,241,220,0.83),92.36vw 26.68vh 0 0 rgba(255,241,220,0.56),54.31vw 28.29vh 0 0 rgba(255,241,220,0.63),16.07vw 25.21vh 0 0 rgba(255,241,220,0.74),14.41vw 19.57vh 0 0 rgba(255,241,220,0.49),98.46vw 6.75vh 0 0 rgba(255,241,220,0.84),34.07vw 13.43vh 0 0 rgba(255,241,220,0.26),92.83vw 10.40vh 0 0 rgba(255,241,220,0.72),20.44vw 16.45vh 0 0 rgba(255,241,220,0.81),65.69vw 24.61vh 0 0 rgba(255,241,220,0.49),73.66vw 20.46vh 0 0 rgba(255,241,220,0.73),2.18vw 18.48vh 0 0 rgba(255,241,220,0.53),85.01vw 17.71vh 0 0 rgba(255,241,220,0.63),55.98vw 23.13vh 0 0 rgba(255,241,220,0.25),94.95vw 28.56vh 0 0 rgba(255,241,220,0.31),36.86vw 8.06vh 0 0 rgba(255,241,220,0.52),71.74vw 14.29vh 0 0 rgba(255,241,220,0.46),29.36vw 6.60vh 0 0 rgba(255,241,220,0.85),27.07vw 2.84vh 0 0 rgba(255,241,220,0.76),62.01vw 21.05vh 0 0 rgba(255,241,220,0.45),67.48vw 1.84vh 0 0 rgba(255,241,220,0.62),86.19vw 44.33vh 0 0 rgba(255,241,220,0.63),66.89vw 13.50vh 0 0 rgba(255,241,220,0.68),60.36vw 35.02vh 0 0 rgba(255,241,220,0.51),34.67vw 33.04vh 0 0 rgba(255,241,220,0.50),37.48vw 28.97vh 0 0 rgba(255,241,220,0.44),93.87vw 42.89vh 0 0 rgba(255,241,220,0.71),33.16vw 26.85vh 0 0 rgba(255,241,220,0.74),85.33vw 3.21vh 0 0 rgba(255,241,220,0.35),50.50vw 1.61vh 0 0 rgba(255,241,220,0.67),26.97vw 11.69vh 0 0 rgba(255,241,220,0.49),98.85vw 45.58vh 0 0 rgba(255,241,220,0.49),30.52vw 18.41vh 0 0 rgba(255,241,220,0.48),20.90vw 30.81vh 0 0 rgba(255,241,220,0.34),3.88vw 6.05vh 0 0 rgba(255,241,220,0.32),15.71vw 9.91vh 0 0 rgba(255,241,220,0.65),6.42vw 22.19vh 0 0 rgba(255,241,220,0.34),75.06vw 43.67vh 0 0 rgba(255,241,220,0.70),29.59vw 9.62vh 0 0 rgba(255,241,220,0.84),91.45vw 26.84vh 0 0 rgba(255,241,220,0.74),57.21vw 33.65vh 0 0 rgba(255,241,220,0.60),47.33vw 36.33vh 0 0 rgba(255,241,220,0.47),54.31vw 22.48vh 0 0 rgba(255,241,220,0.46),84.19vw 36.81vh 0 0 rgba(255,241,220,0.57),54.90vw 24.91vh 0 0 rgba(255,241,220,0.50),52.28vw 23.40vh 0 0 rgba(255,241,220,0.74),90.34vw 32.79vh 0 0 rgba(255,241,220,0.82),46.51vw 15.50vh 0 0 rgba(255,241,220,0.62);
-  animation:twinkle 3.4s steps(2) infinite;
-}
-@keyframes twinkle{50%{opacity:.45}}
-
-/* ── sun ─────────────────────────────────── */
 .glow{
-  left:56vw;top:34vh;width:38vw;height:38vw;
+  left:52vw; top:30vh; width:44vw; height:44vw;
   transform:translate(-50%,-50%);
   background:radial-gradient(circle,rgba(255,214,120,.50) 0%,rgba(255,184,74,0) 62%);
+  z-index:1;
+  animation:pulse 6s ease-in-out infinite;
 }
+@keyframes pulse{50%{opacity:.6;transform:translate(-50%,-50%) scale(1.08)}}
+
+.stars{
+  left:0; top:0; width:2px; height:2px;
+  box-shadow:21.9vw 8.7vh 0 0 rgba(255,241,220,0.75),10.0vw 29.3vh 0 0 rgba(255,241,220,0.31),34.8vw 28.1vh 0 0 rgba(255,241,220,0.82),34.7vw 15.7vh 0 0 rgba(255,241,220,0.57),30.8vw 36.6vh 0 0 rgba(255,241,220,0.72),91.1vw 27.6vh 0 0 rgba(255,241,220,0.61),55.6vw 39.3vh 0 0 rgba(255,241,220,0.47),58.3vw 10.0vh 0 0 rgba(255,241,220,0.33),50.0vw 22.0vh 0 0 rgba(255,241,220,0.51),97.3vw 2.3vh 0 0 rgba(255,241,220,0.51),2.2vw 42.5vh 0 0 rgba(255,241,220,0.60),52.8vw 14.9vh 0 0 rgba(255,241,220,0.34),39.7vw 14.2vh 0 0 rgba(255,241,220,0.68),26.3vw 6.1vh 0 0 rgba(255,241,220,0.75),50.4vw 17.0vh 0 0 rgba(255,241,220,0.56),81.1vw 15.2vh 0 0 rgba(255,241,220,0.56),39.7vw 42.7vh 0 0 rgba(255,241,220,0.37),60.0vw 43.1vh 0 0 rgba(255,241,220,0.33),52.7vw 9.6vh 0 0 rgba(255,241,220,0.84),23.3vw 39.6vh 0 0 rgba(255,241,220,0.37),66.8vw 17.6vh 0 0 rgba(255,241,220,0.34),58.1vw 3.7vh 0 0 rgba(255,241,220,0.47),76.7vw 9.0vh 0 0 rgba(255,241,220,0.77),20.5vw 18.6vh 0 0 rgba(255,241,220,0.48),15.3vw 7.6vh 0 0 rgba(255,241,220,0.83),55.8vw 41.5vh 0 0 rgba(255,241,220,0.53),28.9vw 36.0vh 0 0 rgba(255,241,220,0.85),21.1vw 30.7vh 0 0 rgba(255,241,220,0.89),68.3vw 11.7vh 0 0 rgba(255,241,220,0.32),84.9vw 21.4vh 0 0 rgba(255,241,220,0.43),43.5vw 32.3vh 0 0 rgba(255,241,220,0.81),63.7vw 37.1vh 0 0 rgba(255,241,220,0.57),20.4vw 3.1vh 0 0 rgba(255,241,220,0.30),60.1vw 2.6vh 0 0 rgba(255,241,220,0.88),48.6vw 30.3vh 0 0 rgba(255,241,220,0.88),8.2vw 35.7vh 0 0 rgba(255,241,220,0.72),14.6vw 29.1vh 0 0 rgba(255,241,220,0.51),96.7vw 42.6vh 0 0 rgba(255,241,220,0.80),25.0vw 41.8vh 0 0 rgba(255,241,220,0.37),74.8vw 3.9vh 0 0 rgba(255,241,220,0.32),84.0vw 28.2vh 0 0 rgba(255,241,220,0.83),11.9vw 28.0vh 0 0 rgba(255,241,220,0.58),56.7vw 22.9vh 0 0 rgba(255,241,220,0.36),80.5vw 8.0vh 0 0 rgba(255,241,220,0.81),44.5vw 34.5vh 0 0 rgba(255,241,220,0.63),63.5vw 31.4vh 0 0 rgba(255,241,220,0.55),52.4vw 43.3vh 0 0 rgba(255,241,220,0.44),18.1vw 36.2vh 0 0 rgba(255,241,220,0.65),32.6vw 23.4vh 0 0 rgba(255,241,220,0.40),73.7vw 12.0vh 0 0 rgba(255,241,220,0.47),87.1vw 40.8vh 0 0 rgba(255,241,220,0.67),37.1vw 41.7vh 0 0 rgba(255,241,220,0.54),84.2vw 30.9vh 0 0 rgba(255,241,220,0.64),33.5vw 19.1vh 0 0 rgba(255,241,220,0.83),9.0vw 28.6vh 0 0 rgba(255,241,220,0.40),10.2vw 31.2vh 0 0 rgba(255,241,220,0.46),95.9vw 27.3vh 0 0 rgba(255,241,220,0.66),66.9vw 18.5vh 0 0 rgba(255,241,220,0.51),41.0vw 6.6vh 0 0 rgba(255,241,220,0.43),39.2vw 7.8vh 0 0 rgba(255,241,220,0.64),65.6vw 5.6vh 0 0 rgba(255,241,220,0.50),67.3vw 43.6vh 0 0 rgba(255,241,220,0.61),77.0vw 0.0vh 0 0 rgba(255,241,220,0.61),83.8vw 10.9vh 0 0 rgba(255,241,220,0.75),42.7vw 22.0vh 0 0 rgba(255,241,220,0.79),50.1vw 0.7vh 0 0 rgba(255,241,220,0.88),89.1vw 24.1vh 0 0 rgba(255,241,220,0.35),85.6vw 21.3vh 0 0 rgba(255,241,220,0.73),28.6vw 16.7vh 0 0 rgba(255,241,220,0.89),82.4vw 21.0vh 0 0 rgba(255,241,220,0.77),14.0vw 15.4vh 0 0 rgba(255,241,220,0.83),84.1vw 39.3vh 0 0 rgba(255,241,220,0.58),82.2vw 11.2vh 0 0 rgba(255,241,220,0.43),20.1vw 21.0vh 0 0 rgba(255,241,220,0.67),86.8vw 23.2vh 0 0 rgba(255,241,220,0.90),6.7vw 28.9vh 0 0 rgba(255,241,220,0.50),10.6vw 12.9vh 0 0 rgba(255,241,220,0.58),34.1vw 36.0vh 0 0 rgba(255,241,220,0.78),76.3vw 30.2vh 0 0 rgba(255,241,220,0.79),13.9vw 26.5vh 0 0 rgba(255,241,220,0.88),41.7vw 3.5vh 0 0 rgba(255,241,220,0.63),39.9vw 23.1vh 0 0 rgba(255,241,220,0.78),89.7vw 3.9vh 0 0 rgba(255,241,220,0.72),7.9vw 42.0vh 0 0 rgba(255,241,220,0.46),96.9vw 19.9vh 0 0 rgba(255,241,220,0.43),3.1vw 11.2vh 0 0 rgba(255,241,220,0.74),30.6vw 2.2vh 0 0 rgba(255,241,220,0.34),16.1vw 41.6vh 0 0 rgba(255,241,220,0.80),0.6vw 25.4vh 0 0 rgba(255,241,220,0.39),1.2vw 20.0vh 0 0 rgba(255,241,220,0.34),82.7vw 9.7vh 0 0 rgba(255,241,220,0.71),38.6vw 35.7vh 0 0 rgba(255,241,220,0.83),15.2vw 12.8vh 0 0 rgba(255,241,220,0.31),51.4vw 25.5vh 0 0 rgba(255,241,220,0.47),10.5vw 32.1vh 0 0 rgba(255,241,220,0.71),63.8vw 13.2vh 0 0 rgba(255,241,220,0.46),38.3vw 25.3vh 0 0 rgba(255,241,220,0.81),82.6vw 22.6vh 0 0 rgba(255,241,220,0.62),42.7vw 18.2vh 0 0 rgba(255,241,220,0.69),74.3vw 35.0vh 0 0 rgba(255,241,220,0.67);
+  z-index:1;
+  animation:twinkle 3.2s steps(2) infinite;
+}
+@keyframes twinkle{50%{opacity:.4}}
+
 .sun{
-  left:70vw;top:51vh;
-  width:15vh;height:15vh;
+  left:70vw; top:50vh; width:16vh; height:16vh;
   transform:translate(-50%,-50%);
   border-radius:50%;
   background:
-    repeating-linear-gradient(180deg,
-      transparent 0 12px, rgba(224,75,60,.55) 12px 15px),
+    repeating-linear-gradient(180deg,transparent 0 14px,rgba(224,75,60,.5) 14px 17px),
     linear-gradient(180deg,#FFF6DE 0%,#FFE9B8 42%,#FFC65E 100%);
+  z-index:2;
 }
 
-/* ── ridges: seamless, auto-scrolling ────── */
-.ridge{left:0;width:200%;height:100%}
-.ridge--far{
-  clip-path:polygon(0.00% 22.84%,2.08% 25.48%,4.17% 25.38%,6.25% 26.54%,8.33% 30.01%,10.42% 32.19%,12.50% 30.93%,14.58% 29.69%,16.67% 32.87%,18.75% 38.99%,20.83% 42.01%,22.92% 39.63%,25.00% 36.66%,27.08% 38.65%,29.17% 44.63%,31.25% 49.03%,33.33% 49.3%,35.42% 48.04%,37.50% 47.17%,39.58% 43.78%,41.67% 34.72%,43.75% 23.04%,45.83% 16.28%,47.92% 17.74%,50.00% 22.84%,52.08% 25.48%,54.17% 25.38%,56.25% 26.54%,58.33% 30.01%,60.42% 32.19%,62.50% 30.93%,64.58% 29.69%,66.67% 32.87%,68.75% 38.99%,70.83% 42.01%,72.92% 39.63%,75.00% 36.66%,77.08% 38.65%,79.17% 44.63%,81.25% 49.03%,83.33% 49.3%,85.42% 48.04%,87.50% 47.17%,89.58% 43.78%,91.67% 34.72%,93.75% 23.04%,95.83% 16.28%,97.92% 17.74%,100.00% 22.84%,100% 100%,0% 100%);
+/* ridges — 200% wide, slid left by half for a seamless loop */
+.ridge{left:0; top:0; width:200%; height:100%; z-index:3}
+.ridge-far{
+  clip-path:polygon(0.00% 22.5%,2.27% 25.1%,4.55% 25%,6.82% 26.9%,9.09% 30.5%,11.36% 31.3%,13.64% 29.3%,15.91% 30.5%,18.18% 36.4%,20.45% 40.8%,22.73% 38.9%,25.00% 35.8%,27.27% 38.1%,29.55% 44.4%,31.82% 48%,34.09% 47.4%,36.36% 46.3%,38.64% 44.6%,40.91% 37.7%,43.18% 25.6%,45.45% 16.8%,47.73% 17.3%,50.00% 22.5%,52.27% 25.1%,54.55% 25%,56.82% 26.9%,59.09% 30.5%,61.36% 31.3%,63.64% 29.3%,65.91% 30.5%,68.18% 36.4%,70.45% 40.8%,72.73% 38.9%,75.00% 35.8%,77.27% 38.1%,79.55% 44.4%,81.82% 48%,84.09% 47.4%,86.36% 46.3%,88.64% 44.6%,90.91% 37.7%,93.18% 25.6%,95.45% 16.8%,97.73% 17.3%,100.00% 22.5%,100% 100%,0% 100%);
   background:linear-gradient(180deg,#7A4A86 0 3px,#3A2258 3px);
-  animation:slide 92s linear infinite;
+  animation:slide 90s linear infinite;
 }
-.ridge--mid{
-  clip-path:polygon(0.00% 54.59%,1.79% 53.89%,3.57% 52.96%,5.36% 56.06%,7.14% 59.47%,8.93% 58.7%,10.71% 58.01%,12.50% 62.82%,14.29% 68.97%,16.07% 69.6%,17.86% 66.35%,19.64% 63.99%,21.43% 60.87%,23.21% 54.76%,25.00% 51.12%,26.79% 54.96%,28.57% 60.81%,30.36% 60.69%,32.14% 56.08%,33.93% 52.38%,35.71% 48.69%,37.50% 42.88%,39.29% 39.88%,41.07% 44.17%,42.86% 50.4%,44.64% 51.56%,46.43% 50.21%,48.21% 51.93%,50.00% 54.59%,51.79% 53.89%,53.57% 52.96%,55.36% 56.06%,57.14% 59.47%,58.93% 58.7%,60.71% 58.01%,62.50% 62.82%,64.29% 68.97%,66.07% 69.6%,67.86% 66.35%,69.64% 63.99%,71.43% 60.87%,73.21% 54.76%,75.00% 51.12%,76.79% 54.96%,78.57% 60.81%,80.36% 60.69%,82.14% 56.08%,83.93% 52.38%,85.71% 48.69%,87.50% 42.88%,89.29% 39.88%,91.07% 44.17%,92.86% 50.4%,94.64% 51.56%,96.43% 50.21%,98.21% 51.93%,100.00% 54.59%,100% 100%,0% 100%);
+.ridge-mid{
+  clip-path:polygon(0.00% 53.8%,1.92% 53.1%,3.85% 52.5%,5.77% 56.2%,7.69% 58.6%,9.62% 57%,11.54% 58.5%,13.46% 65.1%,15.38% 68.5%,17.31% 65.9%,19.23% 63.1%,21.15% 60.4%,23.08% 54.5%,25.00% 50.6%,26.92% 54.7%,28.85% 60.1%,30.77% 58.7%,32.69% 54%,34.62% 50.6%,36.54% 45.9%,38.46% 40.5%,40.38% 41.8%,42.31% 48.4%,44.23% 51.2%,46.15% 49.8%,48.08% 51.1%,50.00% 53.8%,51.92% 53.1%,53.85% 52.5%,55.77% 56.2%,57.69% 58.6%,59.62% 57%,61.54% 58.5%,63.46% 65.1%,65.38% 68.5%,67.31% 65.9%,69.23% 63.1%,71.15% 60.4%,73.08% 54.5%,75.00% 50.6%,76.92% 54.7%,78.85% 60.1%,80.77% 58.7%,82.69% 54%,84.62% 50.6%,86.54% 45.9%,88.46% 40.5%,90.38% 41.8%,92.31% 48.4%,94.23% 51.2%,96.15% 49.8%,98.08% 51.1%,100.00% 53.8%,100% 100%,0% 100%);
   background:linear-gradient(180deg,#9C5A7A 0 3px,#2A1642 3px);
-  animation:slide 54s linear infinite;
+  animation:slide 52s linear infinite;
 }
-@keyframes slide{to{transform:translateX(-50%)}}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ── water ───────────────────────────────── */
+/* water */
 .water{
-  left:0;right:0;top:56%;height:19.5%;
+  left:0; right:0; top:56vh; height:19.5vh; z-index:4;
   background:linear-gradient(180deg,
     rgba(255,225,150,.55) 0%,
     rgba(224,75,60,.35) 14%,
@@ -106,279 +94,249 @@ body{
     rgba(26,14,51,.92) 100%);
 }
 .shimmer{
-  left:0;right:0;top:56%;height:19.5%;
+  left:0; right:0; top:56vh; height:19.5vh; z-index:5;
   opacity:.55;
-  background-image:repeating-linear-gradient(180deg,
-    rgba(255,241,220,.55) 0 1px, transparent 1px 7px);
-  animation:ripple 5s linear infinite;
+  background-image:repeating-linear-gradient(180deg,rgba(255,241,220,.55) 0 1px,transparent 1px 7px);
+  animation:ripple 4s linear infinite;
 }
-@keyframes ripple{to{background-position:0 -7px}}
+@keyframes ripple{from{background-position:0 0}to{background-position:0 -7px}}
 .glitter{
-  left:70vw;top:56%;width:16vw;height:19.5%;
+  left:70vw; top:56vh; width:18vw; height:19.5vh; z-index:5;
   transform:translateX(-50%);
   background:linear-gradient(180deg,rgba(255,214,120,.75),rgba(255,214,120,0));
   clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);
-  animation:flick 2.6s steps(3) infinite;
+  animation:flick 2.4s steps(3) infinite;
 }
-@keyframes flick{50%{opacity:.45}}
-.haze{
-  left:0;right:0;top:54.6%;height:2.4%;
-  background:rgba(255,184,74,.30);
-}
+@keyframes flick{50%{opacity:.4}}
+.haze{left:0;right:0;top:54.8vh;height:2.4vh;z-index:5;background:rgba(255,184,74,.30)}
 
-/* ── shore ───────────────────────────────── */
+/* shore */
 .shore{
-  left:0;right:0;top:75.5%;bottom:0;
+  left:0; right:0; top:75.5vh; bottom:0; z-index:6;
   background:linear-gradient(180deg,#6B3A72 0 2px,#43265E 2px 5px,#1A0E33 5px);
 }
 .pebbles{
-  left:0;width:200%;top:75.5%;bottom:0;
+  left:0; top:75.5vh; width:200%; height:24.5vh; z-index:7;
   background-image:
     repeating-linear-gradient(90deg,#2A1745 0 5px,transparent 5px 26px),
     repeating-linear-gradient(90deg,transparent 0 13px,#2A1745 13px 16px,transparent 16px 34px);
-  background-position:0 14px, 0 30px;
+  background-position:0 16px, 0 34px;
   background-size:auto 2px;
   background-repeat:repeat-x;
-  animation:slide 16s linear infinite;
+  animation:slide 15s linear infinite;
 }
 
-/* ── the runner (all rectangles, stays crisp) ── */
+/* ══ THE RUNNER ══ */
 .runner{
-  left:22vw;bottom:19vh;
-  width:60px;height:102px;
+  left:22vw; top:63vh; width:60px; height:102px; z-index:8;
   animation:hop .48s steps(2) infinite;
 }
-@keyframes hop{50%{transform:translateY(3px)}}
-.runner div{position:absolute}
+@keyframes hop{from{transform:translateY(0)}50%{transform:translateY(3px)}to{transform:translateY(0)}}
+.runner b{position:absolute;display:block}
 
-.r-hair {left:18px;top:0;   width:39px;height:18px;background:#2E2140}
-.r-hair2{left:21px;top:3px; width:30px;height:6px; background:#453257}
-.r-face {left:21px;top:18px;width:33px;height:21px;background:#F0A868}
-.r-shade{left:21px;top:18px;width:12px;height:21px;background:#C0743F}
-.r-neck {left:30px;top:39px;width:18px;height:6px; background:#C0743F}
-.r-body {left:15px;top:45px;width:45px;height:36px;background:#3559A8}
-.r-bodyd{left:15px;top:45px;width:15px;height:36px;background:#22376E}
-.r-rim1 {left:54px;top:3px; width:6px;height:15px;background:#FFD98A}
-.r-rim2 {left:57px;top:45px;width:3px;height:36px;background:#FFD98A}
+.rShadow{left:6px;top:100px;width:48px;height:5px;background:rgba(11,7,34,.35)}
+.rHair  {left:18px;top:0;   width:39px;height:18px;background:#2E2140}
+.rHair2 {left:21px;top:3px; width:30px;height:6px; background:#453257}
+.rFace  {left:21px;top:18px;width:33px;height:21px;background:#F0A868}
+.rShade {left:21px;top:18px;width:12px;height:21px;background:#C0743F}
+.rNeck  {left:30px;top:39px;width:18px;height:6px; background:#C0743F}
+.rBody  {left:15px;top:45px;width:45px;height:36px;background:#3559A8}
+.rBodyD {left:15px;top:45px;width:15px;height:36px;background:#22376E}
+.rRim1  {left:54px;top:3px; width:6px; height:15px;background:#FFD98A}
+.rRim2  {left:57px;top:45px;width:3px; height:36px;background:#FFD98A}
 
-.r-armb{width:15px;height:15px;background:#3559A8;animation:armB .48s infinite}
-.r-armf{width:15px;height:15px;background:#22376E;animation:armF .48s infinite}
+.rArmB{width:15px;height:15px;background:#3559A8;animation:armB .48s infinite}
+.rArmF{width:15px;height:15px;background:#22376E;animation:armF .48s infinite}
 @keyframes armB{
-  0%,24.9%{left:51px;top:54px}  25%,49.9%{left:48px;top:48px}
-  50%,74.9%{left:42px;top:51px} 75%,100%{left:51px;top:57px}
+  0%,24.9%  {left:51px;top:54px}
+  25%,49.9% {left:48px;top:48px}
+  50%,74.9% {left:42px;top:51px}
+  75%,100%  {left:51px;top:57px}
 }
 @keyframes armF{
-  0%,24.9%{left:3px;top:48px}   25%,49.9%{left:12px;top:51px}
-  50%,74.9%{left:21px;top:48px} 75%,100%{left:12px;top:45px}
+  0%,24.9%  {left:3px;top:48px}
+  25%,49.9% {left:12px;top:51px}
+  50%,74.9% {left:21px;top:48px}
+  75%,100%  {left:12px;top:45px}
 }
 
-.r-legb{width:15px;background:#31264A;animation:legB .48s infinite}
-.r-legf{width:15px;background:#4A3A6B;animation:legF .48s infinite}
+.rLegB{width:15px;background:#31264A;animation:legB .48s infinite}
+.rLegF{width:15px;background:#4A3A6B;animation:legF .48s infinite}
 @keyframes legB{
-  0%,24.9%{left:12px;top:81px;height:21px}  25%,49.9%{left:18px;top:81px;height:21px}
-  50%,74.9%{left:27px;top:81px;height:21px} 75%,100%{left:9px;top:84px;height:18px}
+  0%,24.9%  {left:12px;top:81px;height:21px}
+  25%,49.9% {left:18px;top:81px;height:21px}
+  50%,74.9% {left:27px;top:81px;height:21px}
+  75%,100%  {left:9px; top:84px;height:18px}
 }
 @keyframes legF{
-  0%,24.9%{left:42px;top:81px;height:21px}  25%,49.9%{left:36px;top:84px;height:18px}
-  50%,74.9%{left:30px;top:81px;height:21px} 75%,100%{left:42px;top:81px;height:21px}
-}
-.r-shadow{
-  left:6px;top:100px;width:48px;height:5px;
-  background:rgba(11,7,34,.35);
+  0%,24.9%  {left:42px;top:81px;height:21px}
+  25%,49.9% {left:36px;top:84px;height:18px}
+  50%,74.9% {left:30px;top:81px;height:21px}
+  75%,100%  {left:42px;top:81px;height:21px}
 }
 
-/* ── foreground grass, fastest layer ─────── */
+/* foreground */
 .grass{
-  left:0;width:200%;bottom:0;height:46px;
+  left:0; bottom:0; width:200%; height:46px; z-index:9;
   background-image:
     repeating-linear-gradient(90deg,#100822 0 9px,transparent 9px 51px),
     repeating-linear-gradient(90deg,transparent 0 15px,#100822 15px 21px,transparent 21px 51px);
   background-position:0 18px, 0 0;
   background-size:auto 28px, auto 46px;
   background-repeat:repeat-x;
-  animation:slide 9s linear infinite;
+  animation:slide 8s linear infinite;
 }
 
-/* ── embers ──────────────────────────────── */
-.ember{width:3px;height:3px;background:#FFC86E;bottom:14vh;opacity:0}
-.e1{left:12vw;animation:rise 7s linear infinite}
-.e2{left:33vw;animation:rise 9s linear .8s infinite}
-.e3{left:52vw;animation:rise 8s linear 2.1s infinite}
-.e4{left:68vw;animation:rise 11s linear 1.4s infinite}
-.e5{left:81vw;animation:rise 7.5s linear 3.2s infinite}
-.e6{left:44vw;animation:rise 10s linear 4.4s infinite}
+.ember{width:3px;height:3px;background:#FFC86E;top:70vh;z-index:9;opacity:0}
+.e1{left:12vw;animation:rise 7s   linear 0s   infinite}
+.e2{left:33vw;animation:rise 9s   linear .9s  infinite}
+.e3{left:52vw;animation:rise 8s   linear 2.2s infinite}
+.e4{left:68vw;animation:rise 11s  linear 1.5s infinite}
+.e5{left:81vw;animation:rise 7.5s linear 3.3s infinite}
+.e6{left:44vw;animation:rise 10s  linear 4.5s infinite}
 @keyframes rise{
-  0%{transform:translateY(0);opacity:0}
-  12%{opacity:.85}
-  100%{transform:translateY(-46vh) translateX(26px);opacity:0}
+  0%  {transform:translate(0,0);      opacity:0}
+  12% {opacity:.9}
+  100%{transform:translate(26px,-50vh);opacity:0}
 }
 
-/* ── veil + CRT ──────────────────────────── */
-.veil{
-  inset:0;
-  background:linear-gradient(180deg,rgba(11,7,34,.10),rgba(11,7,34,.52));
-}
-.crt{
-  inset:0;
-  background:repeating-linear-gradient(180deg,rgba(0,0,0,.15) 0 2px,transparent 2px 4px);
+.veil{left:0;right:0;top:0;bottom:0;z-index:10;background:linear-gradient(180deg,rgba(11,7,34,.10),rgba(11,7,34,.52))}
+.crt {left:0;right:0;top:0;bottom:0;z-index:11;background:repeating-linear-gradient(180deg,rgba(0,0,0,.15) 0 2px,transparent 2px 4px)}
+
+/* build marker — tells you at a glance which file is live */
+.build{
+  position:fixed;right:10px;top:10px;z-index:30;
+  font-family:'Press Start 2P',monospace;font-size:8px;
+  color:#FFD98A;background:rgba(11,7,34,.75);
+  padding:6px 8px;border:2px solid #FFD98A;letter-spacing:.1em;
 }
 
-/* ═══════════════════════════════════════════
-   CONTENT
-   ═══════════════════════════════════════════ */
-.stage{position:relative;z-index:5}
+/* ══ CONTENT ══ */
+.stage{position:relative;z-index:20}
 
 .display{
-  font-family:'Press Start 2P',monospace;
-  line-height:1.5;
+  font-family:'Press Start 2P',monospace;line-height:1.5;
   text-shadow:
     3px 0 0 var(--ink), -3px 0 0 var(--ink),
     0 3px 0 var(--ink), 0 -3px 0 var(--ink),
     3px 3px 0 var(--ink), -3px -3px 0 var(--ink),
     3px -3px 0 var(--ink), -3px 3px 0 var(--ink),
-    0 0 24px rgba(255,184,74,.45),
-    12px 12px 0 rgba(11,7,34,.45);
+    0 0 24px rgba(255,184,74,.45), 12px 12px 0 rgba(11,7,34,.45);
 }
-
 .eyebrow{
-  font-family:'Silkscreen',monospace;font-weight:700;
-  font-size:clamp(12px,1.5vw,15px);
-  letter-spacing:.24em;color:var(--amber);margin-bottom:26px;
+  font-family:'Press Start 2P',monospace;font-size:clamp(9px,1.2vw,12px);
+  letter-spacing:.2em;color:var(--amber);margin-bottom:26px;
   text-shadow:2px 2px 0 var(--ink),0 0 14px rgba(255,184,74,.5);
 }
-
 .copy{
-  font-size:clamp(20px,2.1vw,26px);
-  line-height:1.55;max-width:44ch;color:var(--cream);
-  text-shadow:2px 2px 0 var(--ink),0 0 14px rgba(11,7,34,.95);
+  font-size:clamp(20px,2.1vw,26px);line-height:1.55;max-width:44ch;
+  color:var(--cream);text-shadow:2px 2px 0 var(--ink),0 0 14px rgba(11,7,34,.95);
 }
 .copy + .copy{margin-top:22px}
 .copy em{font-style:normal;color:var(--ember)}
 .copy b{font-weight:400;color:var(--gold)}
 .copy.faded{color:var(--dim)}
 
-.hero{
-  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
-  padding:0 7vw;max-width:1100px;
-}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 7vw;max-width:1100px}
 .hero__name{font-size:clamp(32px,8vw,80px);color:var(--gold);margin-bottom:30px}
 .hero .copy{max-width:38ch}
-
 .hint{
   position:absolute;bottom:34px;left:7vw;
-  font-family:'Silkscreen',monospace;font-weight:700;
-  font-size:12px;letter-spacing:.2em;color:var(--cream);
-  text-shadow:2px 2px 0 var(--ink);
+  font-family:'Press Start 2P',monospace;font-size:10px;letter-spacing:.2em;
+  color:var(--cream);text-shadow:2px 2px 0 var(--ink);
   animation:bob 1.6s ease-in-out infinite;
 }
-@keyframes bob{50%{transform:translateY(9px)}}
+@keyframes bob{from{transform:translateY(0)}50%{transform:translateY(9px)}to{transform:translateY(0)}}
 
 .block{padding:15vh 7vw;max-width:1100px}
 .block__head{font-size:clamp(22px,4.2vw,42px);color:var(--gold);margin-bottom:36px}
 
 .gear{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
 .gear span{
-  font-family:'Silkscreen',monospace;font-weight:700;
-  font-size:clamp(13px,1.7vw,17px);letter-spacing:.08em;padding:15px 17px;
+  font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.3vw,13px);
+  padding:15px 17px;color:var(--gold);border:3px solid var(--amber);
   background:linear-gradient(180deg,rgba(255,184,74,.18),rgba(11,7,34,.62));
-  color:var(--gold);border:3px solid var(--amber);
-  box-shadow:6px 6px 0 rgba(11,7,34,.6),inset 0 0 18px rgba(255,184,74,.18);
+  box-shadow:6px 6px 0 rgba(11,7,34,.6);
 }
 .gear span.old{
   color:var(--dim);border-color:var(--dim);
   background:linear-gradient(180deg,rgba(183,164,212,.12),rgba(11,7,34,.62));
-  box-shadow:6px 6px 0 rgba(11,7,34,.6);
 }
 .gear--last{margin-bottom:30px}
 
 .links{display:flex;flex-direction:column;gap:18px;max-width:430px;margin-top:34px}
 .btn{
   display:flex;align-items:center;gap:16px;padding:21px 20px;
-  font-family:'Silkscreen',monospace;font-weight:700;
-  font-size:clamp(13px,1.7vw,16px);letter-spacing:.08em;
+  font-family:'Press Start 2P',monospace;font-size:clamp(10px,1.3vw,13px);
   text-decoration:none;color:var(--ink);
   background:linear-gradient(180deg,#FFE7B0,#FFB84A);
   border:3px solid var(--ink);box-shadow:8px 8px 0 rgba(11,7,34,.85);
   transition:transform .09s ease-out,box-shadow .09s ease-out;
 }
-.btn .tail{margin-left:auto;font-size:12px;opacity:.6}
+.btn .tail{margin-left:auto;opacity:.6}
 .btn:hover,.btn:focus-visible{
   background:linear-gradient(180deg,#FFB07A,#F58236);
   transform:translate(8px,8px);box-shadow:0 0 22px rgba(245,130,54,.6);outline:none;
 }
-.btn--locked{
-  background:rgba(11,7,34,.45);color:var(--dim);border-color:var(--dim);
-  box-shadow:8px 8px 0 rgba(11,7,34,.6);cursor:not-allowed;
-}
-.btn--locked:hover,.btn--locked:focus-visible{
-  background:rgba(11,7,34,.45);color:var(--dim);
-  transform:none;box-shadow:8px 8px 0 rgba(11,7,34,.6);
-}
+.btn--locked{background:rgba(11,7,34,.45);color:var(--dim);border-color:var(--dim);box-shadow:8px 8px 0 rgba(11,7,34,.6);cursor:not-allowed}
+.btn--locked:hover,.btn--locked:focus-visible{background:rgba(11,7,34,.45);color:var(--dim);transform:none;box-shadow:8px 8px 0 rgba(11,7,34,.6)}
 
 .footer{
-  padding:11vh 7vw 15vh;
-  font-family:'Silkscreen',monospace;font-weight:700;
-  font-size:12px;letter-spacing:.2em;line-height:2.4;color:var(--dim);
+  padding:11vh 7vw 15vh;font-family:'Press Start 2P',monospace;
+  font-size:10px;letter-spacing:.2em;line-height:2.4;color:var(--dim);
   text-shadow:2px 2px 0 var(--ink);
 }
 
 @media (max-width:640px){
   .block{padding:12vh 7vw}
   .copy,.links{max-width:none}
-  .runner{transform:scale(.7);transform-origin:bottom left;left:14vw}
-  .sun{width:11vh;height:11vh}
-}
-
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *{animation:none !important;transition:none !important}
+  .runner{transform:scale(.7);transform-origin:top left;left:12vw}
+  .sun{width:12vh;height:12vh}
 }
 </style>
 </head>
 <body>
 
-<div class="world" aria-hidden="true">
-  <div class="sky"></div>
-  <div class="glow"></div>
-  <div class="stars"></div>
-  <div class="sun"></div>
-  <div class="ridge ridge--far"></div>
-  <div class="ridge ridge--mid"></div>
-  <div class="water"></div>
-  <div class="shimmer"></div>
-  <div class="glitter"></div>
-  <div class="haze"></div>
-  <div class="shore"></div>
-  <div class="pebbles"></div>
+<div class="build">BUILD 07</div>
 
-  <div class="runner">
-    <div class="r-shadow"></div>
-    <div class="r-legb"></div>
-    <div class="r-armb r-armb"></div>
-    <div class="r-body"></div>
-    <div class="r-bodyd"></div>
-    <div class="r-hair"></div>
-    <div class="r-hair2"></div>
-    <div class="r-face"></div>
-    <div class="r-shade"></div>
-    <div class="r-neck"></div>
-    <div class="r-rim1"></div>
-    <div class="r-rim2"></div>
-    <div class="r-legf"></div>
-    <div class="r-armf"></div>
-  </div>
+<div class="lyr glow"></div>
+<div class="lyr stars"></div>
+<div class="lyr sun"></div>
+<div class="lyr ridge ridge-far"></div>
+<div class="lyr ridge ridge-mid"></div>
+<div class="lyr water"></div>
+<div class="lyr shimmer"></div>
+<div class="lyr glitter"></div>
+<div class="lyr haze"></div>
+<div class="lyr shore"></div>
+<div class="lyr pebbles"></div>
 
-  <div class="grass"></div>
-  <div class="ember e1"></div>
-  <div class="ember e2"></div>
-  <div class="ember e3"></div>
-  <div class="ember e4"></div>
-  <div class="ember e5"></div>
-  <div class="ember e6"></div>
-  <div class="dither"></div>
-  <div class="veil"></div>
-  <div class="crt"></div>
+<div class="lyr runner">
+  <b class="rShadow"></b>
+  <b class="rLegB"></b>
+  <b class="rArmB"></b>
+  <b class="rBody"></b>
+  <b class="rBodyD"></b>
+  <b class="rHair"></b>
+  <b class="rHair2"></b>
+  <b class="rFace"></b>
+  <b class="rShade"></b>
+  <b class="rNeck"></b>
+  <b class="rRim1"></b>
+  <b class="rRim2"></b>
+  <b class="rLegF"></b>
+  <b class="rArmF"></b>
 </div>
+
+<div class="lyr grass"></div>
+<div class="lyr ember e1"></div>
+<div class="lyr ember e2"></div>
+<div class="lyr ember e3"></div>
+<div class="lyr ember e4"></div>
+<div class="lyr ember e5"></div>
+<div class="lyr ember e6"></div>
+<div class="lyr veil"></div>
+<div class="lyr crt"></div>
 
 <div class="stage">
 
@@ -386,7 +344,7 @@ body{
     <p class="eyebrow">CONTINUE? &#9654; YES</p>
     <!-- EDIT: your name or handle -->
     <h1 class="hero__name display">ag0027</h1>
-    <p class="copy">Five years ago I stopped writing code. I'm back at the keyboard now, learning Kotlin, working my way toward Android. <em>This page is the checkpoint.</em></p>
+    <p class="copy">Over five years ago I stopped writing code. I'm back at the keyboard now, learning Kotlin, working my way toward Android. <em>This page is the checkpoint.</em></p>
     <p class="hint">&#9660; KEEP MOVING</p>
   </header>
 
@@ -452,7 +410,7 @@ body{
     </div>
   </section>
 
-  <p class="footer">NO FRAMEWORKS &#183; NO JAVASCRIPT<br>ONE COMMIT AT A TIME</p>
+  <p class="footer">NO FRAMEWORKS<br>ONE COMMIT AT A TIME</p>
 
 </div>
 
