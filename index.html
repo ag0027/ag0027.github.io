@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLAYER ONE</title>
+<title>ag0027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
@@ -28,12 +28,29 @@ body{
   overflow-x:hidden;
 }
 
+/* Painted in pure CSS. Always there, even if the canvas never runs. */
+#fallback{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 70% 52%, rgba(255,214,120,.55) 0%, rgba(255,184,74,0) 34%),
+    linear-gradient(180deg,
+      #140A2E 0%,  #2A1052 11%, #4B1560 22%, #7A1C5E 32%,
+      #B02A55 40%, #E04B3C 47%, #F58236 51%, #FFB84A 54%,
+      #FFE196 56%,
+      #3A2258 57%, #2E1A48 64%,
+      #241040 71%, #1F0E3A 75%,
+      #1A0E33 76%, #150B29 100%);
+}
+
 #scene{
   position:fixed;
   inset:0;
   width:100%;
   height:100%;
-  z-index:0;
+  z-index:1;
   image-rendering:pixelated;
   image-rendering:crisp-edges;
 }
@@ -41,7 +58,7 @@ body{
 #scrim{
   position:fixed;
   inset:0;
-  z-index:1;
+  z-index:2;
   background:linear-gradient(180deg,#0B0722 0%,#150C33 100%);
   opacity:0;
   pointer-events:none;
@@ -59,7 +76,7 @@ body{
   );
 }
 
-.stage{position:relative;z-index:2}
+.stage{position:relative;z-index:3}
 
 /* ── type ───────────────────────────────── */
 .display{
@@ -225,6 +242,7 @@ body{
 </head>
 <body>
 
+<div id="fallback" aria-hidden="true"></div>
 <canvas id="scene" aria-hidden="true"></canvas>
 <div id="scrim" aria-hidden="true"></div>
 <div id="crt" aria-hidden="true"></div>
@@ -234,7 +252,7 @@ body{
   <header class="hero">
     <p class="eyebrow">CONTINUE? &#9654; YES</p>
     <!-- EDIT: your name or handle -->
-    <h1 class="hero__name display">PLAYER ONE</h1>
+    <h1 class="hero__name display">a g 0 0 2 7</h1>
     <p class="copy">Five years ago I stopped writing code. I'm back at the keyboard now, learning Kotlin, working my way toward Android. <em>This page is the checkpoint.</em></p>
     <p class="hint">&#9660; KEEP MOVING</p>
   </header>
@@ -546,14 +564,24 @@ body{
   var t=0;
   function loop(){ t++; draw(t); setScrim(); requestAnimationFrame(loop); }
 
-  window.addEventListener('resize',function(){ resize(); if(reduce) draw(0); });
-  resize();
+  try {
+    window.addEventListener('resize',function(){
+      try { resize(); if(reduce) draw(0); } catch(e){}
+    });
+    resize();
 
-  if(reduce){
-    draw(0); setScrim();
-    window.addEventListener('scroll',function(){ setScrim(); draw(0); },{passive:true});
-  } else {
-    loop();
+    if(reduce){
+      draw(0); setScrim();
+      window.addEventListener('scroll',function(){
+        try { setScrim(); draw(0); } catch(e){}
+      },{passive:true});
+    } else {
+      loop();
+    }
+  } catch(err){
+    // canvas unavailable — hide it and let the CSS sunset stand in
+    cv.style.display='none';
+    if(window.console) console.warn('scene disabled:', err);
   }
 })();
 </script>
