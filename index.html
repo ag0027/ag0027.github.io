@@ -297,8 +297,10 @@ body{
 </head>
 <body>
 
-<audio id="bgm" loop muted>
+<!-- Set preload to "none" so the browser doesn't pre-decode a buggy buffer -->
+<audio id="bgm" loop preload="none">
   <source src="bgm.mp3" type="audio/mpeg">
+  <source src="bgm.wav" type="audio/wav">
 </audio>
 
 <button id="bgmToggle" style="
@@ -308,7 +310,7 @@ body{
   box-shadow:4px 4px 0 rgba(0,0,0,.4);cursor:pointer;
   transition:transform .09s;letter-spacing:.1em;
 ">
-  ♪ ON
+  ♪ OFF
 </button>
 
 <p style="
@@ -316,7 +318,7 @@ body{
   font-family:'VT323',monospace;font-size:20px;color:#FFD98A;
   text-shadow:4px 4px 0 #000;margin:0;text-align:right;
 ">
-  Music by: <a href="https://www.youtube.com/watch?v=_urmmZIJe0E" style="color:#FFD98A;text-decoration:underline;">BeaTraxx</a>
+  Music by: <a href="https://www.youtube.com/watch?v=_urmmZIJe0E" style="color:#FFD98A;text-decoration:underline;" target="_blank">BeaTraxx</a>
 </p>
 
 <script>
@@ -325,27 +327,48 @@ const btn = document.getElementById('bgmToggle');
 let isPlaying = false;
 let hasStarted = false;
 
-// Auto-play on scroll
-window.addEventListener('scroll', function(){
-  if(!hasStarted){
-    bgm.muted = false;
-    bgm.play().catch(e => console.log('play failed:', e));
+function startMusic() {
+  if (hasStarted) return;
+  
+  // 1. Force the audio element to re-initialize clean from scratch
+  bgm.load();
+  bgm.currentTime = 0;
+  
+  // 2. Play clean audio
+  bgm.play().then(() => {
     btn.textContent = '♪ ON';
     isPlaying = true;
     hasStarted = true;
-  }
-}, { once: true });
+  }).catch(e => {
+    console.log('Autoplay blocked:', e);
+  });
+}
 
-// Button toggle
-btn.addEventListener('click', function(){
-  if(isPlaying){
+// Trigger on click, tap, or key press anywhere on the page
+['click', 'touchstart', 'keydown'].forEach(eventType => {
+  window.addEventListener(eventType, function() {
+    startMusic();
+  }, { once: true });
+});
+
+// Toggle Button Click Handler
+btn.addEventListener('click', function(e) {
+  e.stopPropagation(); // Prevents double-triggering the window listener
+  
+  if (!hasStarted) {
+    startMusic();
+    return;
+  }
+
+  if (isPlaying) {
     bgm.pause();
     btn.textContent = '♪ OFF';
     isPlaying = false;
   } else {
-    bgm.play().catch(e => console.log('play failed:', e));
-    btn.textContent = '♪ ON';
-    isPlaying = true;
+    bgm.play().then(() => {
+      btn.textContent = '♪ ON';
+      isPlaying = true;
+    }).catch(e => console.log('Play error:', e));
   }
 });
 </script>
