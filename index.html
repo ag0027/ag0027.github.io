@@ -1,354 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REBOOT.SYS // The Return</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&family=Inter:wght@400;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLAYER ONE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0B0722;
+  --gold:#FFD98A;
+  --amber:#FFB84A;
+  --ember:#F58236;
+  --cream:#FFF1DC;
+  --dim:#A995C9;
+  --teal:#5AC8C8;
+}
 
-    <style>
-        :root {
-            --bg: #161616;
-            --surface: #0f0f0f;
-            --border: #222;
-            --accent: #00ff41; 
-            --text-main: #e0e0e0;
-            --text-dim: #444; 
-            --font-mono: 'JetBrains Mono', monospace;
-            --font-sans: 'Inter', sans-serif;
-        }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 
-        @keyframes scan-line {
-            0% { transform: translateY(-100%); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(1000px); opacity: 0; }
-        }
+body{
+  background:var(--ink);
+  color:var(--cream);
+  font-family:'VT323',ui-monospace,monospace;
+  overflow-x:hidden;
+}
 
-        @keyframes text-flicker {
-            0% { opacity: 1; }
-            2% { opacity: 0.4; }
-            4% { opacity: 1; }
-            19% { opacity: 1; }
-            20% { opacity: 0.8; }
-            21% { opacity: 1; }
-            100% { opacity: 1; }
-        }
+#scene{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+}
 
-        @keyframes corner-ping {
-            0%, 90% { color: var(--text-dim); }
-            95% { color: var(--accent); }
-            100% { color: var(--text-dim); }
-        }
+#scrim{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(180deg,#0B0722 0%,#150C33 100%);
+  opacity:0;
+  pointer-events:none;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+#crt{
+  position:fixed;
+  inset:0;
+  z-index:9;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,.14) 0 2px,
+    transparent 2px 4px
+  );
+}
 
-        body {
-            background-color: var(--bg);
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            padding: 4rem 2rem;
-            position: relative;
-            overflow-x: hidden;
-        }
+.stage{position:relative;z-index:2}
 
-        body::before {
-            content: "5.9088° N, 116.1010° E // BUILD_VER_1.0";
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            font-family: var(--font-mono);
-            font-size: 10px;
-            color: var(--text-dim);
-            letter-spacing: 2px;
-            animation: corner-ping 10s infinite;
-        }
+/* ── type ───────────────────────────────── */
+.display{
+  font-family:'Press Start 2P',monospace;
+  line-height:1.5;
+  text-shadow:
+    3px 0 0 var(--ink), -3px 0 0 var(--ink),
+    0 3px 0 var(--ink), 0 -3px 0 var(--ink),
+    3px 3px 0 var(--ink), -3px -3px 0 var(--ink),
+    3px -3px 0 var(--ink), -3px 3px 0 var(--ink),
+    0 0 22px rgba(255,184,74,.45),
+    12px 12px 0 rgba(11,7,34,.45);
+}
 
-        .sidebar-decor {
-            position: fixed;
-            right: 40px;
-            top: 20%;
-            bottom: 20%;
-            width: 1px;
-            background: var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.eyebrow{
+  font-family:'Silkscreen',monospace;
+  font-weight:700;
+  font-size:clamp(12px,1.5vw,15px);
+  letter-spacing:.24em;
+  color:var(--amber);
+  margin-bottom:26px;
+  text-shadow:2px 2px 0 var(--ink), 0 0 14px rgba(255,184,74,.5);
+}
 
-        .sidebar-text {
-            transform: rotate(90deg);
-            white-space: nowrap;
-            font-family: var(--font-mono);
-            font-size: 10px;
-            color: var(--text-dim);
-            letter-spacing: 5px;
-            text-transform: uppercase;
-        }
+.copy{
+  font-size:clamp(20px,2.1vw,26px);
+  line-height:1.55;
+  max-width:44ch;
+  color:var(--cream);
+  text-shadow:2px 2px 0 var(--ink), 0 0 12px rgba(11,7,34,.9);
+}
+.copy + .copy{margin-top:22px}
+.copy em{font-style:normal;color:var(--ember)}
+.copy b{font-weight:400;color:var(--gold)}
+.copy.faded{color:var(--dim)}
 
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
+/* ── hero ───────────────────────────────── */
+.hero{
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0 7vw;
+  max-width:1100px;
+}
+.hero__name{
+  font-size:clamp(32px,8vw,80px);
+  color:var(--gold);
+  margin-bottom:30px;
+}
+.hero .copy{max-width:38ch}
 
-        .flow-line {
-            position: absolute;
-            left: 100px;
-            top: 150px;
-            bottom: 0;
-            width: 1px;
-            background: rgba(255, 255, 255, 0.05);
-            z-index: -1;
-            overflow: hidden;
-        }
+.hint{
+  position:absolute;
+  bottom:34px;
+  left:7vw;
+  font-family:'Silkscreen',monospace;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.2em;
+  color:var(--cream);
+  text-shadow:2px 2px 0 var(--ink);
+  animation:bob 1.6s ease-in-out infinite;
+}
+@keyframes bob{50%{transform:translateY(9px)}}
 
-        .flow-line::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
-            animation: scan-line 4s linear infinite;
-        }
+/* ── blocks ─────────────────────────────── */
+.block{padding:15vh 7vw;max-width:1100px}
+.block__head{
+  font-size:clamp(22px,4.2vw,42px);
+  color:var(--gold);
+  margin-bottom:36px;
+}
 
-        header {
-            border-bottom: 4px solid var(--text-main);
-            padding-bottom: 2rem;
-            margin-bottom: 6rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
+/* ── loadout ────────────────────────────── */
+.gear{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
+.gear span{
+  font-family:'Silkscreen',monospace;
+  font-weight:700;
+  font-size:clamp(13px,1.7vw,17px);
+  letter-spacing:.08em;
+  padding:15px 17px;
+  background:linear-gradient(180deg,rgba(255,184,74,.16),rgba(11,7,34,.5));
+  color:var(--gold);
+  border:3px solid var(--amber);
+  box-shadow:6px 6px 0 rgba(11,7,34,.55), inset 0 0 18px rgba(255,184,74,.18);
+}
+.gear span.old{
+  color:var(--dim);
+  border-color:var(--dim);
+  background:linear-gradient(180deg,rgba(169,149,201,.12),rgba(11,7,34,.5));
+  box-shadow:6px 6px 0 rgba(11,7,34,.55);
+}
+.gear--last{margin-bottom:30px}
 
-        h1 {
-            font-family: var(--font-mono);
-            font-weight: 800;
-            font-size: 3.5rem;
-            letter-spacing: -2px;
-            text-transform: uppercase;
-            line-height: 0.9;
-            animation: text-flicker 8s infinite;
-        }
+/* ── links ──────────────────────────────── */
+.links{display:flex;flex-direction:column;gap:18px;max-width:430px;margin-top:34px}
 
-        .status-box {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            text-align: right;
-            color: var(--accent);
-        }
+.btn{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:21px 20px;
+  font-family:'Silkscreen',monospace;
+  font-weight:700;
+  font-size:clamp(13px,1.7vw,16px);
+  letter-spacing:.08em;
+  text-decoration:none;
+  color:var(--ink);
+  background:linear-gradient(180deg,#FFE7B0,#FFB84A);
+  border:3px solid var(--ink);
+  box-shadow:8px 8px 0 rgba(11,7,34,.85);
+  transition:transform .09s ease-out, box-shadow .09s ease-out;
+}
+.btn .tail{margin-left:auto;font-size:12px;opacity:.6}
 
-        section {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 2rem;
-            margin-bottom: 8rem;
-            position: relative;
-        }
+.btn:hover,
+.btn:focus-visible{
+  background:linear-gradient(180deg,#FFB07A,#F58236);
+  transform:translate(8px,8px);
+  box-shadow:0 0 22px rgba(245,130,54,.6);
+  outline:none;
+}
 
-        .bg-num {
-            display: none;
-        }
+.btn--locked{
+  background:rgba(11,7,34,.35);
+  color:var(--dim);
+  border-color:var(--dim);
+  box-shadow:8px 8px 0 rgba(11,7,34,.55);
+  cursor:not-allowed;
+}
+.btn--locked:hover,
+.btn--locked:focus-visible{
+  background:rgba(11,7,34,.35);
+  color:var(--dim);
+  transform:none;
+  box-shadow:8px 8px 0 rgba(11,7,34,.55);
+}
 
-        @media (max-width: 768px) {
-            section { grid-template-columns: 1fr; gap: 1rem; }
-            .sidebar-decor { display: none; }
-        }
+/* ── footer ─────────────────────────────── */
+.footer{
+  padding:11vh 7vw 15vh;
+  font-family:'Silkscreen',monospace;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.2em;
+  line-height:2.4;
+  color:var(--dim);
+  text-shadow:2px 2px 0 var(--ink);
+}
 
-        .label {
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.80);
-            letter-spacing: 2px;
-            padding-top: 0.5rem;
-        }
+@media (max-width:640px){
+  .block{padding:12vh 7vw}
+  .copy,.links{max-width:none}
+}
 
-        .content h2 {
-            font-family: var(--font-mono);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-        }
-
-        .content p {
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-        }
-
-        .highlight {
-            color: #fff;
-            font-weight: 900;
-            border-bottom: 2px solid var(--accent);
-        }
-
-        .project-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .project-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
-        }
-
-        .project-card::after {
-            content: "";
-            position: absolute;
-            top: 0; right: 0;
-            width: 15px; height: 15px;
-            background: var(--border);
-            clip-path: polygon(100% 0, 0 0, 100% 100%);
-            transition: background 0.4s ease;
-        }
-
-        .project-card:hover::after {
-            background: var(--accent);
-        }
-
-        .project-card h3 {
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .tech-list {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            color: var(--text-dim);
-            margin-top: 1.5rem;
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .loading {
-            font-family: var(--font-mono);
-            color: var(--accent);
-        }
-
-		@keyframes blink { 
-		    0%, 100% { opacity: 1; } 
-		    50% { opacity: 0; } 
-		}
-
-		.dot { 
-		    animation: blink 1.2s infinite; 
-		    display: inline-block; 
-		}
-
-		.dot:nth-child(1) { animation-delay: 0.0s; }
-		.dot:nth-child(2) { animation-delay: 0.2s; }
-		.dot:nth-child(3) { animation-delay: 0.4s; }
-
-        footer {
-            margin-top: 8rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            display: flex;
-            justify-content: space-between;
-        }
-		
-		.loading-bar {
-		    display: inline-block;
-		    clip-path: inset(0 100% 0 0); /* Start with the bar hidden */
-		    animation: fill-bar 2s steps(10) infinite; /* steps(10) makes it jump bar-by-bar */
-		}
-
-		@keyframes fill-bar {
-		    to {
-		        clip-path: inset(0 0 0 0); /* Reveal the whole bar */
-		    }
-		}
-
-    </style>
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hint{animation:none}
+  .btn{transition:none}
+}
+</style>
 </head>
 <body>
 
-    <div class="sidebar-decor">
-        <span class="sidebar-text">STATION_ORIGIN: PENAMPANG // 116.1010° E // 04:00_AM_LOGIC</span>
+<canvas id="scene" aria-hidden="true"></canvas>
+<div id="scrim" aria-hidden="true"></div>
+<div id="crt" aria-hidden="true"></div>
+
+<div class="stage">
+
+  <header class="hero">
+    <p class="eyebrow">CONTINUE? &#9654; YES</p>
+    <!-- EDIT: your name or handle -->
+    <h1 class="hero__name display">PLAYER ONE</h1>
+    <p class="copy">Five years ago I stopped writing code. I'm back at the keyboard now, learning Kotlin, working my way toward Android. <em>This page is the checkpoint.</em></p>
+    <p class="hint">&#9660; KEEP MOVING</p>
+  </header>
+
+  <section class="block">
+    <p class="eyebrow">01 &#8212; WHERE I WENT</p>
+    <h2 class="block__head display">I used to<br>build things.</h2>
+    <p class="copy">Desktop software, mostly. C# and WPF &#8212; drag a control onto the canvas, set its properties, wire up an event handler. It worked. I was decent at it.</p>
+    <p class="copy">Then life took the keyboard away for about five years. Long enough for the tools to move on without me. Long enough to start wondering whether the part of my brain that did this still worked at all.</p>
+    <p class="copy"><b>It does.</b> It's rusty. Rust is fine &#8212; rust comes off.</p>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">02 &#8212; WHAT CHANGED</p>
+    <h2 class="block__head display">Beginner<br>again.</h2>
+    <p class="copy">Starting over is a strange feeling when you weren't always a beginner. Kotlin sits close enough to what I knew that it reads familiar, and far enough away that I trip over it constantly.</p>
+    <p class="copy">But the language isn't the real shift. WPF was imperative &#8212; I told the interface what to do, and it sat there until I told it something else. Compose is declarative: I describe what the screen should be for a given state, and it works out the rest.</p>
+    <p class="copy"><em>That's a rewiring, not a rename.</em> So I'm taking it slowly. Small programs. Things that actually run.</p>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">03 &#8212; LOADOUT</p>
+    <h2 class="block__head display">Equipped.</h2>
+    <div class="gear">
+      <span>KOTLIN</span>
+      <span>JETPACK COMPOSE</span>
     </div>
+    <div class="gear gear--last">
+      <span class="old">C#</span>
+      <span class="old">WPF</span>
+    </div>
+    <p class="copy">Kotlin now, Compose next. The old gear stays in the bag &#8212; five years out of date, but the instincts underneath it didn't expire.</p>
+    <p class="copy faded">One rule I keep: write something from an empty file before I look anything up. Even ten minutes of it. Reading code and producing code are different muscles, and only one of them gets built by watching.</p>
+  </section>
 
-    <main>
-        <div class="flow-line"></div>
+  <section class="block">
+    <p class="eyebrow">04 &#8212; CURRENTLY</p>
+    <h2 class="block__head display">Building<br>something small.</h2>
+    <p class="copy">Nothing clever. A timer app, put together with XML layouts &#8212; not because XML is the right long-term answer, but because it's what clicked first, and getting something onto a screen beat waiting until I understood the elegant version.</p>
+    <p class="copy">That's the whole method. <b>Ship the ugly one.</b> Then ship a better one. Perfect is a thing you arrive at from behind, never a thing you start with.</p>
+    <p class="copy faded">Name unlocks when it's finished.</p>
+  </section>
 
-        <header>
-            <h1>SYSTEM<br>REBOOT</h1>
-            <div class="status-box">
-                [ HUMAN UPTIME: 40_YEARS ]<br>
-                [ ORIGIN: PENAMPANG, SABAH ]<br>
-                [ ENV: COMPOSE // SWIFT ]<br>
-				[ ENGINE : GODOT ]<br>
-                STATUS : [<span class="loading-bar">||||||||||</span>]
-            </div>
-        </header>
+  <section class="block">
+    <p class="eyebrow">05 &#8212; FIND ME</p>
+    <h2 class="block__head display">Say hi.</h2>
+    <p class="copy">Nothing worth linking to yet &#8212; the accounts exist, the work doesn't. Check back when one of these lights up.</p>
+    <div class="links">
 
-        <section>
-            <div class="bg-num">01</div>
-            <div class="label">01 // THE_INITIATION</div>
-            <div class="content">
-                <h2>DECOUPLED FROM TRENDS.</h2>
-                <p>
-                    Re-engaging the craft with a focus on <span class="highlight">core functional utility.</span> I architect tools as workbench essentials, prioritizing system stability over aesthetic noise. This milestone era of my craft is dedicated to custom tooling—built on logic that outlasts the framework of the month.
-                </p>
-                <p>
-                    Applying a grounded, systems-first methodology to the modern declarative landscape. I solve for <span class="highlight">architectural integrity</span> during the hours most others are offline.
-                </p>
-            </div>
-        </section>
+      <!-- TO UNLOCK:  swap  <span class="btn btn--locked" aria-disabled="true">
+                       for   <a class="btn" href="YOUR-URL">
+                       delete the <span class="tail"> line, close with </a>   -->
 
-        <section>
-            <div class="bg-num">02</div>
-            <div class="label">02 // THE_MANDATE</div>
-            <div class="content">
-                <div class="project-card">
-                    <h3>WORKFLOW_AUTONOMY</h3>
-                    <p>Engineering high-performance alternatives to restrictive, opaque software models. Focused on total functional transparency and user-centric logic.</p>
-                    <div class="tech-list"><span>#KOTLIN</span> <span>#COMPOSE</span> <span>#NATIVE_BUILD</span></div>
-                </div>
-                <div class="project-card">
-                    <h3>BESPOKE_UTILITIES</h3>
-                    <p>Proprietary builds engineered for specific process gaps. If the existing market tools fail the workflow, I architect the replacement.</p>
-                    <div class="tech-list"><span>#PROPRIETARY</span> <span>#LOGIC_STABLE</span></div>
-                </div>
-            </div>
-        </section>
+      <span class="btn btn--locked" aria-disabled="true">
+        GITHUB <span class="tail">SOON</span>
+      </span>
+      <span class="btn btn--locked" aria-disabled="true">
+        EMAIL <span class="tail">SOON</span>
+      </span>
+      <span class="btn btn--locked" aria-disabled="true">
+        LINKEDIN <span class="tail">SOON</span>
+      </span>
 
-        <section>
-            <div class="bg-num">03</div>
-            <div class="label">03 // EXECUTION</div>
-            <div class="content">
-                <p>
-                    Complexity is common; <span class="highlight">precision is rare.</span> I maintain the stamina to stay up until the logic is flawless and the system is stable. In this workshop, if it isn't functional, it doesn't ship.
-                </p>
-            </div>
-        </section>
+    </div>
+  </section>
 
-        <footer>
-            <span>// END_OF_LOG</span>
-            <span>&copy; 2026 // STATION_ORIGIN_BKI</span>
-            <span>STK_04:99</span>
-        </footer>
-    </main>
+  <p class="footer">NO FRAMEWORKS<br>ONE COMMIT AT A TIME</p>
 
+</div>
+
+<script>
+(function(){
+  var cv = document.getElementById('scene');
+  if(!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d');
+  var scrim = document.getElementById('scrim');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var W=0, H=0, SCALE=3, hz=0, waterBot=0, waterH=0;
+
+  /* 9-stop sky ramp, blended with a 4x4 ordered dither —
+     the thing 8-bit hardware could not do. */
+  var STOPS = [
+    [20,10,46],[42,16,82],[75,21,96],[122,28,94],
+    [176,42,85],[224,75,60],[245,130,54],[255,184,74],[255,225,150]
+  ];
+  var BAYER = [0,8,2,10, 12,4,14,6, 3,11,1,9, 15,7,13,5];
+
+  var skyC = document.createElement('canvas');
+
+  var stars=[], clouds=[], embers=[];
+  for(var i=0;i<90;i++) stars.push({x:Math.random(),y:Math.random(),p:30+Math.floor(Math.random()*70)});
+  for(var c=0;c<8;c++) clouds.push({x:Math.random()*1600,y:0.10+Math.random()*0.30,w:26+Math.random()*52});
+  for(var e=0;e<26;e++) embers.push({x:Math.random(),y:Math.random(),s:0.2+Math.random()*0.5,r:Math.random()*6.28});
+
+  function buildSky(){
+    skyC.width=W; skyC.height=Math.max(1,hz);
+    var s=skyC.getContext('2d');
+    var img=s.createImageData(W,skyC.height), d=img.data;
+    for(var y=0;y<skyC.height;y++){
+      var pos=(y/Math.max(1,skyC.height-1))*(STOPS.length-1);
+      var i0=Math.floor(pos), i1=Math.min(STOPS.length-1,i0+1), fr=pos-i0;
+      for(var x=0;x<W;x++){
+        var th=BAYER[(y&3)*4+(x&3)]/16;
+        var col=fr>th?STOPS[i1]:STOPS[i0];
+        var o=(y*W+x)*4;
+        d[o]=col[0]; d[o+1]=col[1]; d[o+2]=col[2]; d[o+3]=255;
+      }
+    }
+    s.putImageData(img,0,0);
+  }
+
+  function resize(){
+    SCALE = window.innerWidth<700 ? 3 : 3;
+    W=Math.max(140,Math.ceil(window.innerWidth/SCALE));
+    H=Math.max(140,Math.ceil(window.innerHeight/SCALE));
+    cv.width=W; cv.height=H;
+    ctx.imageSmoothingEnabled=false;
+    hz=Math.round(H*0.54);
+    waterBot=Math.round(H*0.755);
+    waterH=waterBot-hz;
+    buildSky();
+  }
+
+  function ridge(off,baseY,amp,len,lit,dark,seed){
+    var pts=[];
+    for(var x=0;x<=W;x++){
+      var wx=x+off+seed;
+      var n=Math.sin(wx/len)*0.55+Math.sin(wx/(len*0.41))*0.28+Math.sin(wx/(len*0.17))*0.17;
+      pts.push(Math.round(baseY-(n+1)*0.5*amp));
+    }
+    ctx.fillStyle=dark;
+    ctx.beginPath(); ctx.moveTo(0,H);
+    for(var i=0;i<=W;i++) ctx.lineTo(i,pts[i]);
+    ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+    // lit rim — 16-bit terrain had shading, not flat silhouette
+    ctx.fillStyle=lit;
+    for(var j=0;j<=W;j++) ctx.fillRect(j,pts[j],1,2);
+  }
+
+  function sunAndGlow(cx,cy,r){
+    // translucent halo (colour math)
+    var g=ctx.createRadialGradient(cx,cy,r*0.5,cx,cy,r*4);
+    g.addColorStop(0,'rgba(255,214,120,.42)');
+    g.addColorStop(1,'rgba(255,184,74,0)');
+    ctx.fillStyle=g;
+    ctx.fillRect(cx-r*4,cy-r*4,r*8,r*8);
+    // disc
+    ctx.fillStyle='#FFE9B8';
+    for(var dy=-r;dy<=r;dy++){
+      var dx=Math.floor(Math.sqrt(Math.max(0,r*r-dy*dy)));
+      var sh=(dy>r*0.15)?'#FFC65E':(dy>-r*0.2?'#FFE9B8':'#FFF6DE');
+      ctx.fillStyle=sh;
+      ctx.fillRect(Math.round(cx-dx),Math.round(cy+dy),dx*2,1);
+    }
+  }
+
+  function water(t,sunX){
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0,hz,W,waterH); ctx.clip();
+    ctx.translate(0,hz*2); ctx.scale(1,-1);
+    ctx.drawImage(skyC,0,0);
+    ctx.restore();
+
+    ctx.fillStyle='rgba(24,12,54,.50)';
+    ctx.fillRect(0,hz,W,waterH);
+
+    // sun glitter column
+    for(var y=hz+2;y<waterBot;y+=3){
+      var d=(y-hz)/waterH;
+      var wob=Math.sin(t*0.06+y*0.5)*(3+d*10);
+      var wdt=Math.round(4+d*22);
+      ctx.fillStyle='rgba(255,214,120,'+(0.5-d*0.34).toFixed(3)+')';
+      ctx.fillRect(Math.round(sunX-wdt/2+wob),y,wdt,1);
+    }
+    // shimmer lines
+    for(var k=0;k<16;k++){
+      var yy=hz+4+((k*13+Math.floor(t*0.5))%(waterH-4));
+      var dd=(yy-hz)/waterH;
+      var xx=Math.sin(t*0.03+k*2.1)*W*0.3+W*0.5;
+      ctx.fillStyle='rgba(255,241,220,'+(0.16+dd*0.16).toFixed(3)+')';
+      ctx.fillRect(Math.round(xx-(10+dd*40)/2),yy,Math.round(10+dd*40),1);
+    }
+    // haze band on the waterline (alpha blending)
+    ctx.fillStyle='rgba(255,184,74,.14)';
+    ctx.fillRect(0,hz-3,W,7);
+  }
+
+  /* fully coloured, shaded sprite — 8-bit got 3 colours, this gets 10 */
+  function runner(x,t){
+    var f=Math.floor(t/7)%4;
+    var bob=(f===1||f===3)?1:0;
+    var y=waterBot+9-32+bob;
+    function p(c,a,b,w,h){ ctx.fillStyle=c; ctx.fillRect(Math.round(x+a),Math.round(y+b),w,h); }
+
+    var HAIR='#2E2140', HAIR2='#453257';
+    var SKIN='#F0A868', SKIND='#C0743F';
+    var COAT='#3559A8', COATD='#22376E';
+    var PANT='#4A3A6B', PANTD='#31264A';
+    var SHOE='#C4453A', RIM='#FFD98A';
+
+    p(HAIR,6,0,13,6); p(HAIR2,7,1,10,2); p(HAIR,5,4,3,5);
+    p(SKIN,7,6,11,7); p(SKIND,7,6,4,7);
+    p(SKIND,10,13,6,2);
+    p(COAT,5,15,15,12); p(COATD,5,15,5,12);
+
+    var aF=[[1,16],[4,17],[7,16],[4,15]][f];
+    var aB=[[17,18],[16,16],[14,17],[17,19]][f];
+    p(COATD,aF[0],aF[1],5,5); p(SKIND,aF[0],aF[1]+5,4,3);
+    p(COAT,aB[0],aB[1],5,5);  p(SKIN,aB[0],aB[1]+5,4,3);
+
+    var lg=[
+      [[4,27,5,7],[14,27,5,7]],
+      [[6,27,5,7],[12,28,6,6]],
+      [[9,27,5,7],[10,27,5,7]],
+      [[3,28,6,6],[14,27,5,7]]
+    ][f];
+    p(PANTD,lg[0][0],lg[0][1],lg[0][2],lg[0][3]);
+    p(PANT, lg[1][0],lg[1][1],lg[1][2],lg[1][3]);
+    p(SHOE, lg[0][0],lg[0][1]+lg[0][3]-2,lg[0][2],2);
+    p(SHOE, lg[1][0],lg[1][1]+lg[1][3]-2,lg[1][2],2);
+
+    // backlit rim from the sun
+    p(RIM,18,1,2,5); p(RIM,17,7,1,6); p(RIM,19,15,1,12);
+
+    ctx.fillStyle='rgba(11,7,34,.28)';
+    ctx.fillRect(Math.round(x+2),waterBot+8,20,2);
+
+    ctx.fillStyle='rgba(255,241,220,.22)';
+    ctx.fillRect(Math.round(x-7-f*4),waterBot+4,4,3);
+    ctx.fillRect(Math.round(x-16-f*5),waterBot+1,3,2);
+  }
+
+  function draw(t){
+    var scroll=window.pageYOffset||0;
+    var world=(reduce?0:t*0.6)+scroll*0.45;
+    var sunX=Math.round(W*0.70);
+
+    ctx.drawImage(skyC,0,0);
+
+    for(var s=0;s<stars.length;s++){
+      var st=stars[s];
+      if(reduce||(Math.floor(t/st.p)%6)!==0){
+        var sy=st.y*hz*0.45;
+        ctx.fillStyle='rgba(255,241,220,'+(0.35+0.5*(1-st.y)).toFixed(2)+')';
+        ctx.fillRect(Math.round(st.x*W),Math.round(sy),1,1);
+      }
+    }
+
+    sunAndGlow(sunX,hz-Math.round(H*0.03),Math.round(Math.min(W,H)*0.085));
+
+    // clouds with lit undersides
+    for(var q=0;q<clouds.length;q++){
+      var cl=clouds[q];
+      var cx=((cl.x-world*0.07)%(W+260)+(W+260))%(W+260)-130;
+      var cy=Math.round(cl.y*hz);
+      ctx.fillStyle='rgba(96,52,110,.55)';
+      ctx.fillRect(Math.round(cx),cy-4,cl.w-14,4);
+      ctx.fillStyle='rgba(170,80,110,.55)';
+      ctx.fillRect(Math.round(cx),cy,cl.w,3);
+      ctx.fillStyle='rgba(255,184,74,.45)';
+      ctx.fillRect(Math.round(cx+3),cy+3,cl.w-8,2);
+    }
+
+    ridge(world*0.14,hz-1,H*0.17,84,'#7A4A86','#3A2258',0);
+    ridge(world*0.28,hz,   H*0.10,52,'#9C5A7A','#2A1642',420);
+
+    water(t,sunX);
+
+    // near shore
+    ctx.fillStyle='#1A0E33'; ctx.fillRect(0,waterBot,W,H-waterBot);
+    ctx.fillStyle='#43265E'; ctx.fillRect(0,waterBot,W,2);
+    ctx.fillStyle='#6B3A72'; ctx.fillRect(0,waterBot,W,1);
+
+    ctx.fillStyle='#2A1745';
+    var step=13, off=Math.round(world)%step;
+    for(var g=-step;g<W+step;g+=step){
+      ctx.fillRect(g-off,waterBot+7,5,2);
+      ctx.fillRect(g-off+6,waterBot+14,3,2);
+    }
+
+    runner(Math.round(W*0.24),t);
+
+    // foreground grass, fastest layer
+    ctx.fillStyle='#100822';
+    var fs=17, fo=Math.round(world*1.5)%fs;
+    for(var v=-fs;v<W+fs;v+=fs){
+      var bx=v-fo;
+      ctx.fillRect(bx,H-9,3,9);
+      ctx.fillRect(bx+5,H-14,2,14);
+      ctx.fillRect(bx+9,H-7,3,7);
+    }
+
+    // drifting embers
+    for(var m=0;m<embers.length;m++){
+      var em=embers[m];
+      var ex=((em.x*W-world*0.35+Math.sin(t*0.02+em.r)*9)%W+W)%W;
+      var ey=waterBot-((t*em.s+em.y*400)%(H*0.55));
+      ctx.fillStyle='rgba(255,200,110,'+(0.15+0.4*Math.abs(Math.sin(t*0.04+em.r))).toFixed(3)+')';
+      ctx.fillRect(Math.round(ex),Math.round(ey),1,1);
+    }
+  }
+
+  function setScrim(){
+    var sc=Math.min(1,(window.pageYOffset||0)/(window.innerHeight*0.8));
+    scrim.style.opacity=(sc*0.72).toFixed(3);
+  }
+
+  var t=0;
+  function loop(){ t++; draw(t); setScrim(); requestAnimationFrame(loop); }
+
+  window.addEventListener('resize',function(){ resize(); if(reduce) draw(0); });
+  resize();
+
+  if(reduce){
+    draw(0); setScrim();
+    window.addEventListener('scroll',function(){ setScrim(); draw(0); },{passive:true});
+  } else {
+    loop();
+  }
+})();
+</script>
 </body>
 </html>
