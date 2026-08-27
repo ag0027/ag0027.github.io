@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ag0027</title>
+<title>Player One : ag0027</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -18,7 +18,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 
-/* SKY — lives on the body itself, so it is always painted */
+/* SKY */
 body{
   color:var(--cream);
   font-family:'VT323','Courier New',monospace;
@@ -70,7 +70,7 @@ body{
   z-index:2;
 }
 
-/* ridges — 200% wide, slid left by half for a seamless loop */
+/* ridges */
 .ridge{left:0; top:0; width:200%; height:100%; z-index:3}
 .ridge-far{
   clip-path:polygon(0.00% 22.5%,2.27% 25.1%,4.55% 25%,6.82% 26.9%,9.09% 30.5%,11.36% 31.3%,13.64% 29.3%,15.91% 30.5%,18.18% 36.4%,20.45% 40.8%,22.73% 38.9%,25.00% 35.8%,27.27% 38.1%,29.55% 44.4%,31.82% 48%,34.09% 47.4%,36.36% 46.3%,38.64% 44.6%,40.91% 37.7%,43.18% 25.6%,45.45% 16.8%,47.73% 17.3%,50.00% 22.5%,52.27% 25.1%,54.55% 25%,56.82% 26.9%,59.09% 30.5%,61.36% 31.3%,63.64% 29.3%,65.91% 30.5%,68.18% 36.4%,70.45% 40.8%,72.73% 38.9%,75.00% 35.8%,77.27% 38.1%,79.55% 44.4%,81.82% 48%,84.09% 47.4%,86.36% 46.3%,88.64% 44.6%,90.91% 37.7%,93.18% 25.6%,95.45% 16.8%,97.73% 17.3%,100.00% 22.5%,100% 100%,0% 100%);
@@ -126,7 +126,7 @@ body{
   animation:slide 15s linear infinite;
 }
 
-/* ══ THE RUNNER ══ */
+/* ══ RUNNER ══ */
 .runner{
   left:22vw; top:63vh; width:60px; height:102px; z-index:8;
   animation:hop .48s steps(2) infinite;
@@ -203,7 +203,7 @@ body{
 .veil{left:0;right:0;top:0;bottom:0;z-index:10;background:linear-gradient(180deg,rgba(11,7,34,.10),rgba(11,7,34,.52))}
 .crt {left:0;right:0;top:0;bottom:0;z-index:11;background:repeating-linear-gradient(180deg,rgba(0,0,0,.15) 0 2px,transparent 2px 4px)}
 
-/* build marker — tells you at a glance which file is live */
+/* build marker */
 .build{
   position:fixed;right:10px;top:10px;z-index:30;
   font-family:'Press Start 2P',monospace;font-size:8px;
@@ -297,7 +297,7 @@ body{
 </head>
 <body>
 
-<!-- Set preload to "none" so the browser doesn't pre-decode a buggy buffer -->
+
 <audio id="bgm" loop preload="none">
   <source src="bgm.mp3" type="audio/mpeg">
   <source src="bgm.wav" type="audio/wav">
@@ -330,11 +330,9 @@ let hasStarted = false;
 function startMusic() {
   if (hasStarted) return;
   
-  // 1. Force the audio element to re-initialize clean from scratch
   bgm.load();
   bgm.currentTime = 0;
   
-  // 2. Play clean audio
   bgm.play().then(() => {
     btn.textContent = '♪ ON';
     isPlaying = true;
@@ -344,16 +342,14 @@ function startMusic() {
   });
 }
 
-// Trigger on click, tap, or key press anywhere on the page
 ['click', 'touchstart', 'keydown'].forEach(eventType => {
   window.addEventListener(eventType, function() {
     startMusic();
   }, { once: true });
 });
 
-// Toggle Button Click Handler
 btn.addEventListener('click', function(e) {
-  e.stopPropagation(); // Prevents double-triggering the window listener
+  e.stopPropagation();
   
   if (!hasStarted) {
     startMusic();
@@ -467,9 +463,7 @@ btn.addEventListener('click', function(e) {
     <p class="copy">Nothing worth linking to yet &#8212; the accounts exist, the work doesn't. Check back when one of these lights up.</p>
     <div class="links">
 
-      <!-- TO UNLOCK:  swap  <span class="btn btn--locked" aria-disabled="true">
-                       for   <a class="btn" href="YOUR-URL">
-                       delete the <span class="tail"> line, close with </a>   -->
+     
 
       <span class="btn btn--locked" aria-disabled="true">
         GITHUB <span class="tail">SOON</span>
