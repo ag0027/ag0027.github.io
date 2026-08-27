@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ag0027</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -14,71 +12,222 @@
   --amber:#FFB84A;
   --ember:#F58236;
   --cream:#FFF1DC;
-  --dim:#A995C9;
-  --teal:#5AC8C8;
+  --dim:#B7A4D4;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 
 body{
-  background:var(--ink);
+  background:#140A2E;
   color:var(--cream);
   font-family:'VT323',ui-monospace,monospace;
   overflow-x:hidden;
 }
 
-/* Painted in pure CSS. Always there, even if the canvas never runs. */
-#fallback{
-  position:fixed;
+/* ═══════════════════════════════════════════
+   THE SCENE — every layer is plain CSS.
+   No canvas, no script, nothing to fail.
+   ═══════════════════════════════════════════ */
+.world{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+.world > *{position:absolute}
+
+/* ── sky: hard-stopped bands ─────────────── */
+.sky{
   inset:0;
-  z-index:0;
-  pointer-events:none;
+  background:linear-gradient(180deg,
+    #140A2E 0%,   #140A2E 8%,
+    #2A1052 8%,   #2A1052 17%,
+    #4B1560 17%,  #4B1560 26%,
+    #7A1C5E 26%,  #7A1C5E 34%,
+    #B02A55 34%,  #B02A55 41%,
+    #E04B3C 41%,  #E04B3C 47%,
+    #F58236 47%,  #F58236 51%,
+    #FFB84A 51%,  #FFB84A 54%,
+    #FFE196 54%,  #FFE196 56%,
+    #1A0E33 56%,  #1A0E33 100%);
+}
+
+/* dither texture over the band edges */
+.dither{
+  inset:0;
+  opacity:.30;
+  background-image:
+    repeating-linear-gradient(0deg,  rgba(255,255,255,.10) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.14) 0 2px, transparent 2px 4px);
+}
+
+/* ── stars ───────────────────────────────── */
+.stars{
+  top:0;left:0;width:1px;height:1px;
+  box-shadow:67.59vw 9.66vh 0 0 rgba(255,241,220,0.25),69.69vw 36.92vh 0 0 rgba(255,241,220,0.70),19.73vw 14.16vh 0 0 rgba(255,241,220,0.40),49.01vw 42.60vh 0 0 rgba(255,241,220,0.48),5.31vw 34.97vh 0 0 rgba(255,241,220,0.43),16.42vw 22.86vh 0 0 rgba(255,241,220,0.56),24.16vw 27.20vh 0 0 rgba(255,241,220,0.81),15.67vw 9.35vh 0 0 rgba(255,241,220,0.50),74.86vw 3.89vh 0 0 rgba(255,241,220,0.35),65.15vw 11.91vh 0 0 rgba(255,241,220,0.27),65.66vw 0.06vh 0 0 rgba(255,241,220,0.54),80.84vw 23.15vh 0 0 rgba(255,241,220,0.42),30.22vw 32.82vh 0 0 rgba(255,241,220,0.65),15.32vw 21.72vh 0 0 rgba(255,241,220,0.55),42.08vw 7.43vh 0 0 rgba(255,241,220,0.44),13.71vw 17.25vh 0 0 rgba(255,241,220,0.29),86.67vw 43.80vh 0 0 rgba(255,241,220,0.75),60.14vw 20.22vh 0 0 rgba(255,241,220,0.51),86.40vw 40.60vh 0 0 rgba(255,241,220,0.49),19.70vw 43.03vh 0 0 rgba(255,241,220,0.28),8.02vw 0.10vh 0 0 rgba(255,241,220,0.42),83.32vw 38.12vh 0 0 rgba(255,241,220,0.52),76.48vw 12.20vh 0 0 rgba(255,241,220,0.85),78.79vw 35.57vh 0 0 rgba(255,241,220,0.74),28.75vw 17.31vh 0 0 rgba(255,241,220,0.49),96.30vw 4.40vh 0 0 rgba(255,241,220,0.41),43.28vw 32.89vh 0 0 rgba(255,241,220,0.38),68.80vw 26.04vh 0 0 rgba(255,241,220,0.44),2.36vw 41.74vh 0 0 rgba(255,241,220,0.68),78.83vw 21.25vh 0 0 rgba(255,241,220,0.72),43.31vw 11.92vh 0 0 rgba(255,241,220,0.70),88.49vw 27.32vh 0 0 rgba(255,241,220,0.65),29.94vw 33.04vh 0 0 rgba(255,241,220,0.53),71.93vw 37.93vh 0 0 rgba(255,241,220,0.69),21.10vw 12.45vh 0 0 rgba(255,241,220,0.33),35.93vw 41.56vh 0 0 rgba(255,241,220,0.42),35.18vw 43.67vh 0 0 rgba(255,241,220,0.36),99.61vw 31.76vh 0 0 rgba(255,241,220,0.79),11.61vw 0.06vh 0 0 rgba(255,241,220,0.60),84.82vw 42.34vh 0 0 rgba(255,241,220,0.80),62.26vw 6.88vh 0 0 rgba(255,241,220,0.54),39.66vw 30.98vh 0 0 rgba(255,241,220,0.47),37.04vw 20.71vh 0 0 rgba(255,241,220,0.51),50.73vw 9.05vh 0 0 rgba(255,241,220,0.38),29.92vw 30.40vh 0 0 rgba(255,241,220,0.68),80.20vw 17.95vh 0 0 rgba(255,241,220,0.82),53.55vw 15.62vh 0 0 rgba(255,241,220,0.59),10.01vw 27.95vh 0 0 rgba(255,241,220,0.31),11.16vw 19.41vh 0 0 rgba(255,241,220,0.78),34.77vw 36.31vh 0 0 rgba(255,241,220,0.71),84.34vw 22.91vh 0 0 rgba(255,241,220,0.75),29.82vw 7.88vh 0 0 rgba(255,241,220,0.81),94.98vw 19.49vh 0 0 rgba(255,241,220,0.33),63.81vw 40.37vh 0 0 rgba(255,241,220,0.60),14.43vw 24.81vh 0 0 rgba(255,241,220,0.57),11.14vw 25.83vh 0 0 rgba(255,241,220,0.62),72.56vw 9.08vh 0 0 rgba(255,241,220,0.32),71.27vw 26.22vh 0 0 rgba(255,241,220,0.48),62.58vw 7.41vh 0 0 rgba(255,241,220,0.58),4.20vw 8.17vh 0 0 rgba(255,241,220,0.55),2.63vw 28.38vh 0 0 rgba(255,241,220,0.81),20.94vw 37.76vh 0 0 rgba(255,241,220,0.67),8.22vw 4.50vh 0 0 rgba(255,241,220,0.83),92.36vw 26.68vh 0 0 rgba(255,241,220,0.56),54.31vw 28.29vh 0 0 rgba(255,241,220,0.63),16.07vw 25.21vh 0 0 rgba(255,241,220,0.74),14.41vw 19.57vh 0 0 rgba(255,241,220,0.49),98.46vw 6.75vh 0 0 rgba(255,241,220,0.84),34.07vw 13.43vh 0 0 rgba(255,241,220,0.26),92.83vw 10.40vh 0 0 rgba(255,241,220,0.72),20.44vw 16.45vh 0 0 rgba(255,241,220,0.81),65.69vw 24.61vh 0 0 rgba(255,241,220,0.49),73.66vw 20.46vh 0 0 rgba(255,241,220,0.73),2.18vw 18.48vh 0 0 rgba(255,241,220,0.53),85.01vw 17.71vh 0 0 rgba(255,241,220,0.63),55.98vw 23.13vh 0 0 rgba(255,241,220,0.25),94.95vw 28.56vh 0 0 rgba(255,241,220,0.31),36.86vw 8.06vh 0 0 rgba(255,241,220,0.52),71.74vw 14.29vh 0 0 rgba(255,241,220,0.46),29.36vw 6.60vh 0 0 rgba(255,241,220,0.85),27.07vw 2.84vh 0 0 rgba(255,241,220,0.76),62.01vw 21.05vh 0 0 rgba(255,241,220,0.45),67.48vw 1.84vh 0 0 rgba(255,241,220,0.62),86.19vw 44.33vh 0 0 rgba(255,241,220,0.63),66.89vw 13.50vh 0 0 rgba(255,241,220,0.68),60.36vw 35.02vh 0 0 rgba(255,241,220,0.51),34.67vw 33.04vh 0 0 rgba(255,241,220,0.50),37.48vw 28.97vh 0 0 rgba(255,241,220,0.44),93.87vw 42.89vh 0 0 rgba(255,241,220,0.71),33.16vw 26.85vh 0 0 rgba(255,241,220,0.74),85.33vw 3.21vh 0 0 rgba(255,241,220,0.35),50.50vw 1.61vh 0 0 rgba(255,241,220,0.67),26.97vw 11.69vh 0 0 rgba(255,241,220,0.49),98.85vw 45.58vh 0 0 rgba(255,241,220,0.49),30.52vw 18.41vh 0 0 rgba(255,241,220,0.48),20.90vw 30.81vh 0 0 rgba(255,241,220,0.34),3.88vw 6.05vh 0 0 rgba(255,241,220,0.32),15.71vw 9.91vh 0 0 rgba(255,241,220,0.65),6.42vw 22.19vh 0 0 rgba(255,241,220,0.34),75.06vw 43.67vh 0 0 rgba(255,241,220,0.70),29.59vw 9.62vh 0 0 rgba(255,241,220,0.84),91.45vw 26.84vh 0 0 rgba(255,241,220,0.74),57.21vw 33.65vh 0 0 rgba(255,241,220,0.60),47.33vw 36.33vh 0 0 rgba(255,241,220,0.47),54.31vw 22.48vh 0 0 rgba(255,241,220,0.46),84.19vw 36.81vh 0 0 rgba(255,241,220,0.57),54.90vw 24.91vh 0 0 rgba(255,241,220,0.50),52.28vw 23.40vh 0 0 rgba(255,241,220,0.74),90.34vw 32.79vh 0 0 rgba(255,241,220,0.82),46.51vw 15.50vh 0 0 rgba(255,241,220,0.62);
+  animation:twinkle 3.4s steps(2) infinite;
+}
+@keyframes twinkle{50%{opacity:.45}}
+
+/* ── sun ─────────────────────────────────── */
+.glow{
+  left:56vw;top:34vh;width:38vw;height:38vw;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,214,120,.50) 0%,rgba(255,184,74,0) 62%);
+}
+.sun{
+  left:70vw;top:51vh;
+  width:15vh;height:15vh;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
   background:
-    radial-gradient(circle at 70% 52%, rgba(255,214,120,.55) 0%, rgba(255,184,74,0) 34%),
-    linear-gradient(180deg,
-      #140A2E 0%,  #2A1052 11%, #4B1560 22%, #7A1C5E 32%,
-      #B02A55 40%, #E04B3C 47%, #F58236 51%, #FFB84A 54%,
-      #FFE196 56%,
-      #3A2258 57%, #2E1A48 64%,
-      #241040 71%, #1F0E3A 75%,
-      #1A0E33 76%, #150B29 100%);
+    repeating-linear-gradient(180deg,
+      transparent 0 12px, rgba(224,75,60,.55) 12px 15px),
+    linear-gradient(180deg,#FFF6DE 0%,#FFE9B8 42%,#FFC65E 100%);
 }
 
-#scene{
-  position:fixed;
+/* ── ridges: seamless, auto-scrolling ────── */
+.ridge{left:0;width:200%;height:100%}
+.ridge--far{
+  clip-path:polygon(0.00% 22.84%,2.08% 25.48%,4.17% 25.38%,6.25% 26.54%,8.33% 30.01%,10.42% 32.19%,12.50% 30.93%,14.58% 29.69%,16.67% 32.87%,18.75% 38.99%,20.83% 42.01%,22.92% 39.63%,25.00% 36.66%,27.08% 38.65%,29.17% 44.63%,31.25% 49.03%,33.33% 49.3%,35.42% 48.04%,37.50% 47.17%,39.58% 43.78%,41.67% 34.72%,43.75% 23.04%,45.83% 16.28%,47.92% 17.74%,50.00% 22.84%,52.08% 25.48%,54.17% 25.38%,56.25% 26.54%,58.33% 30.01%,60.42% 32.19%,62.50% 30.93%,64.58% 29.69%,66.67% 32.87%,68.75% 38.99%,70.83% 42.01%,72.92% 39.63%,75.00% 36.66%,77.08% 38.65%,79.17% 44.63%,81.25% 49.03%,83.33% 49.3%,85.42% 48.04%,87.50% 47.17%,89.58% 43.78%,91.67% 34.72%,93.75% 23.04%,95.83% 16.28%,97.92% 17.74%,100.00% 22.84%,100% 100%,0% 100%);
+  background:linear-gradient(180deg,#7A4A86 0 3px,#3A2258 3px);
+  animation:slide 92s linear infinite;
+}
+.ridge--mid{
+  clip-path:polygon(0.00% 54.59%,1.79% 53.89%,3.57% 52.96%,5.36% 56.06%,7.14% 59.47%,8.93% 58.7%,10.71% 58.01%,12.50% 62.82%,14.29% 68.97%,16.07% 69.6%,17.86% 66.35%,19.64% 63.99%,21.43% 60.87%,23.21% 54.76%,25.00% 51.12%,26.79% 54.96%,28.57% 60.81%,30.36% 60.69%,32.14% 56.08%,33.93% 52.38%,35.71% 48.69%,37.50% 42.88%,39.29% 39.88%,41.07% 44.17%,42.86% 50.4%,44.64% 51.56%,46.43% 50.21%,48.21% 51.93%,50.00% 54.59%,51.79% 53.89%,53.57% 52.96%,55.36% 56.06%,57.14% 59.47%,58.93% 58.7%,60.71% 58.01%,62.50% 62.82%,64.29% 68.97%,66.07% 69.6%,67.86% 66.35%,69.64% 63.99%,71.43% 60.87%,73.21% 54.76%,75.00% 51.12%,76.79% 54.96%,78.57% 60.81%,80.36% 60.69%,82.14% 56.08%,83.93% 52.38%,85.71% 48.69%,87.50% 42.88%,89.29% 39.88%,91.07% 44.17%,92.86% 50.4%,94.64% 51.56%,96.43% 50.21%,98.21% 51.93%,100.00% 54.59%,100% 100%,0% 100%);
+  background:linear-gradient(180deg,#9C5A7A 0 3px,#2A1642 3px);
+  animation:slide 54s linear infinite;
+}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ── water ───────────────────────────────── */
+.water{
+  left:0;right:0;top:56%;height:19.5%;
+  background:linear-gradient(180deg,
+    rgba(255,225,150,.55) 0%,
+    rgba(224,75,60,.35) 14%,
+    rgba(122,28,94,.55) 40%,
+    rgba(26,14,51,.92) 100%);
+}
+.shimmer{
+  left:0;right:0;top:56%;height:19.5%;
+  opacity:.55;
+  background-image:repeating-linear-gradient(180deg,
+    rgba(255,241,220,.55) 0 1px, transparent 1px 7px);
+  animation:ripple 5s linear infinite;
+}
+@keyframes ripple{to{background-position:0 -7px}}
+.glitter{
+  left:70vw;top:56%;width:16vw;height:19.5%;
+  transform:translateX(-50%);
+  background:linear-gradient(180deg,rgba(255,214,120,.75),rgba(255,214,120,0));
+  clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);
+  animation:flick 2.6s steps(3) infinite;
+}
+@keyframes flick{50%{opacity:.45}}
+.haze{
+  left:0;right:0;top:54.6%;height:2.4%;
+  background:rgba(255,184,74,.30);
+}
+
+/* ── shore ───────────────────────────────── */
+.shore{
+  left:0;right:0;top:75.5%;bottom:0;
+  background:linear-gradient(180deg,#6B3A72 0 2px,#43265E 2px 5px,#1A0E33 5px);
+}
+.pebbles{
+  left:0;width:200%;top:75.5%;bottom:0;
+  background-image:
+    repeating-linear-gradient(90deg,#2A1745 0 5px,transparent 5px 26px),
+    repeating-linear-gradient(90deg,transparent 0 13px,#2A1745 13px 16px,transparent 16px 34px);
+  background-position:0 14px, 0 30px;
+  background-size:auto 2px;
+  background-repeat:repeat-x;
+  animation:slide 16s linear infinite;
+}
+
+/* ── the runner (all rectangles, stays crisp) ── */
+.runner{
+  left:22vw;bottom:19vh;
+  width:60px;height:102px;
+  animation:hop .48s steps(2) infinite;
+}
+@keyframes hop{50%{transform:translateY(3px)}}
+.runner div{position:absolute}
+
+.r-hair {left:18px;top:0;   width:39px;height:18px;background:#2E2140}
+.r-hair2{left:21px;top:3px; width:30px;height:6px; background:#453257}
+.r-face {left:21px;top:18px;width:33px;height:21px;background:#F0A868}
+.r-shade{left:21px;top:18px;width:12px;height:21px;background:#C0743F}
+.r-neck {left:30px;top:39px;width:18px;height:6px; background:#C0743F}
+.r-body {left:15px;top:45px;width:45px;height:36px;background:#3559A8}
+.r-bodyd{left:15px;top:45px;width:15px;height:36px;background:#22376E}
+.r-rim1 {left:54px;top:3px; width:6px;height:15px;background:#FFD98A}
+.r-rim2 {left:57px;top:45px;width:3px;height:36px;background:#FFD98A}
+
+.r-armb{width:15px;height:15px;background:#3559A8;animation:armB .48s infinite}
+.r-armf{width:15px;height:15px;background:#22376E;animation:armF .48s infinite}
+@keyframes armB{
+  0%,24.9%{left:51px;top:54px}  25%,49.9%{left:48px;top:48px}
+  50%,74.9%{left:42px;top:51px} 75%,100%{left:51px;top:57px}
+}
+@keyframes armF{
+  0%,24.9%{left:3px;top:48px}   25%,49.9%{left:12px;top:51px}
+  50%,74.9%{left:21px;top:48px} 75%,100%{left:12px;top:45px}
+}
+
+.r-legb{width:15px;background:#31264A;animation:legB .48s infinite}
+.r-legf{width:15px;background:#4A3A6B;animation:legF .48s infinite}
+@keyframes legB{
+  0%,24.9%{left:12px;top:81px;height:21px}  25%,49.9%{left:18px;top:81px;height:21px}
+  50%,74.9%{left:27px;top:81px;height:21px} 75%,100%{left:9px;top:84px;height:18px}
+}
+@keyframes legF{
+  0%,24.9%{left:42px;top:81px;height:21px}  25%,49.9%{left:36px;top:84px;height:18px}
+  50%,74.9%{left:30px;top:81px;height:21px} 75%,100%{left:42px;top:81px;height:21px}
+}
+.r-shadow{
+  left:6px;top:100px;width:48px;height:5px;
+  background:rgba(11,7,34,.35);
+}
+
+/* ── foreground grass, fastest layer ─────── */
+.grass{
+  left:0;width:200%;bottom:0;height:46px;
+  background-image:
+    repeating-linear-gradient(90deg,#100822 0 9px,transparent 9px 51px),
+    repeating-linear-gradient(90deg,transparent 0 15px,#100822 15px 21px,transparent 21px 51px);
+  background-position:0 18px, 0 0;
+  background-size:auto 28px, auto 46px;
+  background-repeat:repeat-x;
+  animation:slide 9s linear infinite;
+}
+
+/* ── embers ──────────────────────────────── */
+.ember{width:3px;height:3px;background:#FFC86E;bottom:14vh;opacity:0}
+.e1{left:12vw;animation:rise 7s linear infinite}
+.e2{left:33vw;animation:rise 9s linear .8s infinite}
+.e3{left:52vw;animation:rise 8s linear 2.1s infinite}
+.e4{left:68vw;animation:rise 11s linear 1.4s infinite}
+.e5{left:81vw;animation:rise 7.5s linear 3.2s infinite}
+.e6{left:44vw;animation:rise 10s linear 4.4s infinite}
+@keyframes rise{
+  0%{transform:translateY(0);opacity:0}
+  12%{opacity:.85}
+  100%{transform:translateY(-46vh) translateX(26px);opacity:0}
+}
+
+/* ── veil + CRT ──────────────────────────── */
+.veil{
   inset:0;
-  width:100%;
-  height:100%;
-  z-index:1;
-  image-rendering:pixelated;
-  image-rendering:crisp-edges;
+  background:linear-gradient(180deg,rgba(11,7,34,.10),rgba(11,7,34,.52));
 }
-
-#scrim{
-  position:fixed;
+.crt{
   inset:0;
-  z-index:2;
-  background:linear-gradient(180deg,#0B0722 0%,#150C33 100%);
-  opacity:0;
-  pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(0,0,0,.15) 0 2px,transparent 2px 4px);
 }
 
-#crt{
-  position:fixed;
-  inset:0;
-  z-index:9;
-  pointer-events:none;
-  background:repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,.14) 0 2px,
-    transparent 2px 4px
-  );
-}
+/* ═══════════════════════════════════════════
+   CONTENT
+   ═══════════════════════════════════════════ */
+.stage{position:relative;z-index:5}
 
-.stage{position:relative;z-index:3}
-
-/* ── type ───────────────────────────────── */
 .display{
   font-family:'Press Start 2P',monospace;
   line-height:1.5;
@@ -87,165 +236,149 @@ body{
     0 3px 0 var(--ink), 0 -3px 0 var(--ink),
     3px 3px 0 var(--ink), -3px -3px 0 var(--ink),
     3px -3px 0 var(--ink), -3px 3px 0 var(--ink),
-    0 0 22px rgba(255,184,74,.45),
+    0 0 24px rgba(255,184,74,.45),
     12px 12px 0 rgba(11,7,34,.45);
 }
 
 .eyebrow{
-  font-family:'Silkscreen',monospace;
-  font-weight:700;
+  font-family:'Silkscreen',monospace;font-weight:700;
   font-size:clamp(12px,1.5vw,15px);
-  letter-spacing:.24em;
-  color:var(--amber);
-  margin-bottom:26px;
-  text-shadow:2px 2px 0 var(--ink), 0 0 14px rgba(255,184,74,.5);
+  letter-spacing:.24em;color:var(--amber);margin-bottom:26px;
+  text-shadow:2px 2px 0 var(--ink),0 0 14px rgba(255,184,74,.5);
 }
 
 .copy{
   font-size:clamp(20px,2.1vw,26px);
-  line-height:1.55;
-  max-width:44ch;
-  color:var(--cream);
-  text-shadow:2px 2px 0 var(--ink), 0 0 12px rgba(11,7,34,.9);
+  line-height:1.55;max-width:44ch;color:var(--cream);
+  text-shadow:2px 2px 0 var(--ink),0 0 14px rgba(11,7,34,.95);
 }
 .copy + .copy{margin-top:22px}
 .copy em{font-style:normal;color:var(--ember)}
 .copy b{font-weight:400;color:var(--gold)}
 .copy.faded{color:var(--dim)}
 
-/* ── hero ───────────────────────────────── */
 .hero{
-  min-height:100svh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:0 7vw;
-  max-width:1100px;
+  min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+  padding:0 7vw;max-width:1100px;
 }
-.hero__name{
-  font-size:clamp(32px,8vw,80px);
-  color:var(--gold);
-  margin-bottom:30px;
-}
+.hero__name{font-size:clamp(32px,8vw,80px);color:var(--gold);margin-bottom:30px}
 .hero .copy{max-width:38ch}
 
 .hint{
-  position:absolute;
-  bottom:34px;
-  left:7vw;
-  font-family:'Silkscreen',monospace;
-  font-weight:700;
-  font-size:12px;
-  letter-spacing:.2em;
-  color:var(--cream);
+  position:absolute;bottom:34px;left:7vw;
+  font-family:'Silkscreen',monospace;font-weight:700;
+  font-size:12px;letter-spacing:.2em;color:var(--cream);
   text-shadow:2px 2px 0 var(--ink);
   animation:bob 1.6s ease-in-out infinite;
 }
 @keyframes bob{50%{transform:translateY(9px)}}
 
-/* ── blocks ─────────────────────────────── */
 .block{padding:15vh 7vw;max-width:1100px}
-.block__head{
-  font-size:clamp(22px,4.2vw,42px);
-  color:var(--gold);
-  margin-bottom:36px;
-}
+.block__head{font-size:clamp(22px,4.2vw,42px);color:var(--gold);margin-bottom:36px}
 
-/* ── loadout ────────────────────────────── */
 .gear{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 18px}
 .gear span{
-  font-family:'Silkscreen',monospace;
-  font-weight:700;
-  font-size:clamp(13px,1.7vw,17px);
-  letter-spacing:.08em;
-  padding:15px 17px;
-  background:linear-gradient(180deg,rgba(255,184,74,.16),rgba(11,7,34,.5));
-  color:var(--gold);
-  border:3px solid var(--amber);
-  box-shadow:6px 6px 0 rgba(11,7,34,.55), inset 0 0 18px rgba(255,184,74,.18);
+  font-family:'Silkscreen',monospace;font-weight:700;
+  font-size:clamp(13px,1.7vw,17px);letter-spacing:.08em;padding:15px 17px;
+  background:linear-gradient(180deg,rgba(255,184,74,.18),rgba(11,7,34,.62));
+  color:var(--gold);border:3px solid var(--amber);
+  box-shadow:6px 6px 0 rgba(11,7,34,.6),inset 0 0 18px rgba(255,184,74,.18);
 }
 .gear span.old{
-  color:var(--dim);
-  border-color:var(--dim);
-  background:linear-gradient(180deg,rgba(169,149,201,.12),rgba(11,7,34,.5));
-  box-shadow:6px 6px 0 rgba(11,7,34,.55);
+  color:var(--dim);border-color:var(--dim);
+  background:linear-gradient(180deg,rgba(183,164,212,.12),rgba(11,7,34,.62));
+  box-shadow:6px 6px 0 rgba(11,7,34,.6);
 }
 .gear--last{margin-bottom:30px}
 
-/* ── links ──────────────────────────────── */
 .links{display:flex;flex-direction:column;gap:18px;max-width:430px;margin-top:34px}
-
 .btn{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  padding:21px 20px;
-  font-family:'Silkscreen',monospace;
-  font-weight:700;
-  font-size:clamp(13px,1.7vw,16px);
-  letter-spacing:.08em;
-  text-decoration:none;
-  color:var(--ink);
+  display:flex;align-items:center;gap:16px;padding:21px 20px;
+  font-family:'Silkscreen',monospace;font-weight:700;
+  font-size:clamp(13px,1.7vw,16px);letter-spacing:.08em;
+  text-decoration:none;color:var(--ink);
   background:linear-gradient(180deg,#FFE7B0,#FFB84A);
-  border:3px solid var(--ink);
-  box-shadow:8px 8px 0 rgba(11,7,34,.85);
-  transition:transform .09s ease-out, box-shadow .09s ease-out;
+  border:3px solid var(--ink);box-shadow:8px 8px 0 rgba(11,7,34,.85);
+  transition:transform .09s ease-out,box-shadow .09s ease-out;
 }
 .btn .tail{margin-left:auto;font-size:12px;opacity:.6}
-
-.btn:hover,
-.btn:focus-visible{
+.btn:hover,.btn:focus-visible{
   background:linear-gradient(180deg,#FFB07A,#F58236);
-  transform:translate(8px,8px);
-  box-shadow:0 0 22px rgba(245,130,54,.6);
-  outline:none;
+  transform:translate(8px,8px);box-shadow:0 0 22px rgba(245,130,54,.6);outline:none;
 }
-
 .btn--locked{
-  background:rgba(11,7,34,.35);
-  color:var(--dim);
-  border-color:var(--dim);
-  box-shadow:8px 8px 0 rgba(11,7,34,.55);
-  cursor:not-allowed;
+  background:rgba(11,7,34,.45);color:var(--dim);border-color:var(--dim);
+  box-shadow:8px 8px 0 rgba(11,7,34,.6);cursor:not-allowed;
 }
-.btn--locked:hover,
-.btn--locked:focus-visible{
-  background:rgba(11,7,34,.35);
-  color:var(--dim);
-  transform:none;
-  box-shadow:8px 8px 0 rgba(11,7,34,.55);
+.btn--locked:hover,.btn--locked:focus-visible{
+  background:rgba(11,7,34,.45);color:var(--dim);
+  transform:none;box-shadow:8px 8px 0 rgba(11,7,34,.6);
 }
 
-/* ── footer ─────────────────────────────── */
 .footer{
   padding:11vh 7vw 15vh;
-  font-family:'Silkscreen',monospace;
-  font-weight:700;
-  font-size:12px;
-  letter-spacing:.2em;
-  line-height:2.4;
-  color:var(--dim);
+  font-family:'Silkscreen',monospace;font-weight:700;
+  font-size:12px;letter-spacing:.2em;line-height:2.4;color:var(--dim);
   text-shadow:2px 2px 0 var(--ink);
 }
 
 @media (max-width:640px){
   .block{padding:12vh 7vw}
   .copy,.links{max-width:none}
+  .runner{transform:scale(.7);transform-origin:bottom left;left:14vw}
+  .sun{width:11vh;height:11vh}
 }
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .hint{animation:none}
-  .btn{transition:none}
+  *{animation:none !important;transition:none !important}
 }
 </style>
 </head>
 <body>
 
-<div id="fallback" aria-hidden="true"></div>
-<canvas id="scene" aria-hidden="true"></canvas>
-<div id="scrim" aria-hidden="true"></div>
-<div id="crt" aria-hidden="true"></div>
+<div class="world" aria-hidden="true">
+  <div class="sky"></div>
+  <div class="glow"></div>
+  <div class="stars"></div>
+  <div class="sun"></div>
+  <div class="ridge ridge--far"></div>
+  <div class="ridge ridge--mid"></div>
+  <div class="water"></div>
+  <div class="shimmer"></div>
+  <div class="glitter"></div>
+  <div class="haze"></div>
+  <div class="shore"></div>
+  <div class="pebbles"></div>
+
+  <div class="runner">
+    <div class="r-shadow"></div>
+    <div class="r-legb"></div>
+    <div class="r-armb r-armb"></div>
+    <div class="r-body"></div>
+    <div class="r-bodyd"></div>
+    <div class="r-hair"></div>
+    <div class="r-hair2"></div>
+    <div class="r-face"></div>
+    <div class="r-shade"></div>
+    <div class="r-neck"></div>
+    <div class="r-rim1"></div>
+    <div class="r-rim2"></div>
+    <div class="r-legf"></div>
+    <div class="r-armf"></div>
+  </div>
+
+  <div class="grass"></div>
+  <div class="ember e1"></div>
+  <div class="ember e2"></div>
+  <div class="ember e3"></div>
+  <div class="ember e4"></div>
+  <div class="ember e5"></div>
+  <div class="ember e6"></div>
+  <div class="dither"></div>
+  <div class="veil"></div>
+  <div class="crt"></div>
+</div>
 
 <div class="stage">
 
@@ -319,271 +452,9 @@ body{
     </div>
   </section>
 
-  <p class="footer">NO FRAMEWORKS<br>ONE COMMIT AT A TIME</p>
+  <p class="footer">NO FRAMEWORKS &#183; NO JAVASCRIPT<br>ONE COMMIT AT A TIME</p>
 
 </div>
 
-<script>
-(function(){
-  var cv = document.getElementById('scene');
-  if(!cv || !cv.getContext) return;
-  var ctx = cv.getContext('2d');
-  var scrim = document.getElementById('scrim');
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var W=0, H=0, SCALE=3, hz=0, waterBot=0, waterH=0;
-
-  /* 9-stop sky ramp, blended with a 4x4 ordered dither —
-     the thing 8-bit hardware could not do. */
-  var STOPS = [
-    [20,10,46],[42,16,82],[75,21,96],[122,28,94],
-    [176,42,85],[224,75,60],[245,130,54],[255,184,74],[255,225,150]
-  ];
-  var BAYER = [0,8,2,10, 12,4,14,6, 3,11,1,9, 15,7,13,5];
-
-  var skyC = document.createElement('canvas');
-
-  var stars=[], clouds=[], embers=[];
-  for(var i=0;i<90;i++) stars.push({x:Math.random(),y:Math.random(),p:30+Math.floor(Math.random()*70)});
-  for(var c=0;c<8;c++) clouds.push({x:Math.random()*1600,y:0.10+Math.random()*0.30,w:26+Math.random()*52});
-  for(var e=0;e<26;e++) embers.push({x:Math.random(),y:Math.random(),s:0.2+Math.random()*0.5,r:Math.random()*6.28});
-
-  function buildSky(){
-    skyC.width=W; skyC.height=Math.max(1,hz);
-    var s=skyC.getContext('2d');
-    var img=s.createImageData(W,skyC.height), d=img.data;
-    for(var y=0;y<skyC.height;y++){
-      var pos=(y/Math.max(1,skyC.height-1))*(STOPS.length-1);
-      var i0=Math.floor(pos), i1=Math.min(STOPS.length-1,i0+1), fr=pos-i0;
-      for(var x=0;x<W;x++){
-        var th=BAYER[(y&3)*4+(x&3)]/16;
-        var col=fr>th?STOPS[i1]:STOPS[i0];
-        var o=(y*W+x)*4;
-        d[o]=col[0]; d[o+1]=col[1]; d[o+2]=col[2]; d[o+3]=255;
-      }
-    }
-    s.putImageData(img,0,0);
-  }
-
-  function resize(){
-    SCALE = window.innerWidth<700 ? 3 : 3;
-    W=Math.max(140,Math.ceil(window.innerWidth/SCALE));
-    H=Math.max(140,Math.ceil(window.innerHeight/SCALE));
-    cv.width=W; cv.height=H;
-    ctx.imageSmoothingEnabled=false;
-    hz=Math.round(H*0.54);
-    waterBot=Math.round(H*0.755);
-    waterH=waterBot-hz;
-    buildSky();
-  }
-
-  function ridge(off,baseY,amp,len,lit,dark,seed){
-    var pts=[];
-    for(var x=0;x<=W;x++){
-      var wx=x+off+seed;
-      var n=Math.sin(wx/len)*0.55+Math.sin(wx/(len*0.41))*0.28+Math.sin(wx/(len*0.17))*0.17;
-      pts.push(Math.round(baseY-(n+1)*0.5*amp));
-    }
-    ctx.fillStyle=dark;
-    ctx.beginPath(); ctx.moveTo(0,H);
-    for(var i=0;i<=W;i++) ctx.lineTo(i,pts[i]);
-    ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
-    // lit rim — 16-bit terrain had shading, not flat silhouette
-    ctx.fillStyle=lit;
-    for(var j=0;j<=W;j++) ctx.fillRect(j,pts[j],1,2);
-  }
-
-  function sunAndGlow(cx,cy,r){
-    // translucent halo (colour math)
-    var g=ctx.createRadialGradient(cx,cy,r*0.5,cx,cy,r*4);
-    g.addColorStop(0,'rgba(255,214,120,.42)');
-    g.addColorStop(1,'rgba(255,184,74,0)');
-    ctx.fillStyle=g;
-    ctx.fillRect(cx-r*4,cy-r*4,r*8,r*8);
-    // disc
-    ctx.fillStyle='#FFE9B8';
-    for(var dy=-r;dy<=r;dy++){
-      var dx=Math.floor(Math.sqrt(Math.max(0,r*r-dy*dy)));
-      var sh=(dy>r*0.15)?'#FFC65E':(dy>-r*0.2?'#FFE9B8':'#FFF6DE');
-      ctx.fillStyle=sh;
-      ctx.fillRect(Math.round(cx-dx),Math.round(cy+dy),dx*2,1);
-    }
-  }
-
-  function water(t,sunX){
-    ctx.save();
-    ctx.beginPath(); ctx.rect(0,hz,W,waterH); ctx.clip();
-    ctx.translate(0,hz*2); ctx.scale(1,-1);
-    ctx.drawImage(skyC,0,0);
-    ctx.restore();
-
-    ctx.fillStyle='rgba(24,12,54,.50)';
-    ctx.fillRect(0,hz,W,waterH);
-
-    // sun glitter column
-    for(var y=hz+2;y<waterBot;y+=3){
-      var d=(y-hz)/waterH;
-      var wob=Math.sin(t*0.06+y*0.5)*(3+d*10);
-      var wdt=Math.round(4+d*22);
-      ctx.fillStyle='rgba(255,214,120,'+(0.5-d*0.34).toFixed(3)+')';
-      ctx.fillRect(Math.round(sunX-wdt/2+wob),y,wdt,1);
-    }
-    // shimmer lines
-    for(var k=0;k<16;k++){
-      var yy=hz+4+((k*13+Math.floor(t*0.5))%(waterH-4));
-      var dd=(yy-hz)/waterH;
-      var xx=Math.sin(t*0.03+k*2.1)*W*0.3+W*0.5;
-      ctx.fillStyle='rgba(255,241,220,'+(0.16+dd*0.16).toFixed(3)+')';
-      ctx.fillRect(Math.round(xx-(10+dd*40)/2),yy,Math.round(10+dd*40),1);
-    }
-    // haze band on the waterline (alpha blending)
-    ctx.fillStyle='rgba(255,184,74,.14)';
-    ctx.fillRect(0,hz-3,W,7);
-  }
-
-  /* fully coloured, shaded sprite — 8-bit got 3 colours, this gets 10 */
-  function runner(x,t){
-    var f=Math.floor(t/7)%4;
-    var bob=(f===1||f===3)?1:0;
-    var y=waterBot+9-32+bob;
-    function p(c,a,b,w,h){ ctx.fillStyle=c; ctx.fillRect(Math.round(x+a),Math.round(y+b),w,h); }
-
-    var HAIR='#2E2140', HAIR2='#453257';
-    var SKIN='#F0A868', SKIND='#C0743F';
-    var COAT='#3559A8', COATD='#22376E';
-    var PANT='#4A3A6B', PANTD='#31264A';
-    var SHOE='#C4453A', RIM='#FFD98A';
-
-    p(HAIR,6,0,13,6); p(HAIR2,7,1,10,2); p(HAIR,5,4,3,5);
-    p(SKIN,7,6,11,7); p(SKIND,7,6,4,7);
-    p(SKIND,10,13,6,2);
-    p(COAT,5,15,15,12); p(COATD,5,15,5,12);
-
-    var aF=[[1,16],[4,17],[7,16],[4,15]][f];
-    var aB=[[17,18],[16,16],[14,17],[17,19]][f];
-    p(COATD,aF[0],aF[1],5,5); p(SKIND,aF[0],aF[1]+5,4,3);
-    p(COAT,aB[0],aB[1],5,5);  p(SKIN,aB[0],aB[1]+5,4,3);
-
-    var lg=[
-      [[4,27,5,7],[14,27,5,7]],
-      [[6,27,5,7],[12,28,6,6]],
-      [[9,27,5,7],[10,27,5,7]],
-      [[3,28,6,6],[14,27,5,7]]
-    ][f];
-    p(PANTD,lg[0][0],lg[0][1],lg[0][2],lg[0][3]);
-    p(PANT, lg[1][0],lg[1][1],lg[1][2],lg[1][3]);
-    p(SHOE, lg[0][0],lg[0][1]+lg[0][3]-2,lg[0][2],2);
-    p(SHOE, lg[1][0],lg[1][1]+lg[1][3]-2,lg[1][2],2);
-
-    // backlit rim from the sun
-    p(RIM,18,1,2,5); p(RIM,17,7,1,6); p(RIM,19,15,1,12);
-
-    ctx.fillStyle='rgba(11,7,34,.28)';
-    ctx.fillRect(Math.round(x+2),waterBot+8,20,2);
-
-    ctx.fillStyle='rgba(255,241,220,.22)';
-    ctx.fillRect(Math.round(x-7-f*4),waterBot+4,4,3);
-    ctx.fillRect(Math.round(x-16-f*5),waterBot+1,3,2);
-  }
-
-  function draw(t){
-    var scroll=window.pageYOffset||0;
-    var world=(reduce?0:t*0.6)+scroll*0.45;
-    var sunX=Math.round(W*0.70);
-
-    ctx.drawImage(skyC,0,0);
-
-    for(var s=0;s<stars.length;s++){
-      var st=stars[s];
-      if(reduce||(Math.floor(t/st.p)%6)!==0){
-        var sy=st.y*hz*0.45;
-        ctx.fillStyle='rgba(255,241,220,'+(0.35+0.5*(1-st.y)).toFixed(2)+')';
-        ctx.fillRect(Math.round(st.x*W),Math.round(sy),1,1);
-      }
-    }
-
-    sunAndGlow(sunX,hz-Math.round(H*0.03),Math.round(Math.min(W,H)*0.085));
-
-    // clouds with lit undersides
-    for(var q=0;q<clouds.length;q++){
-      var cl=clouds[q];
-      var cx=((cl.x-world*0.07)%(W+260)+(W+260))%(W+260)-130;
-      var cy=Math.round(cl.y*hz);
-      ctx.fillStyle='rgba(96,52,110,.55)';
-      ctx.fillRect(Math.round(cx),cy-4,cl.w-14,4);
-      ctx.fillStyle='rgba(170,80,110,.55)';
-      ctx.fillRect(Math.round(cx),cy,cl.w,3);
-      ctx.fillStyle='rgba(255,184,74,.45)';
-      ctx.fillRect(Math.round(cx+3),cy+3,cl.w-8,2);
-    }
-
-    ridge(world*0.14,hz-1,H*0.17,84,'#7A4A86','#3A2258',0);
-    ridge(world*0.28,hz,   H*0.10,52,'#9C5A7A','#2A1642',420);
-
-    water(t,sunX);
-
-    // near shore
-    ctx.fillStyle='#1A0E33'; ctx.fillRect(0,waterBot,W,H-waterBot);
-    ctx.fillStyle='#43265E'; ctx.fillRect(0,waterBot,W,2);
-    ctx.fillStyle='#6B3A72'; ctx.fillRect(0,waterBot,W,1);
-
-    ctx.fillStyle='#2A1745';
-    var step=13, off=Math.round(world)%step;
-    for(var g=-step;g<W+step;g+=step){
-      ctx.fillRect(g-off,waterBot+7,5,2);
-      ctx.fillRect(g-off+6,waterBot+14,3,2);
-    }
-
-    runner(Math.round(W*0.24),t);
-
-    // foreground grass, fastest layer
-    ctx.fillStyle='#100822';
-    var fs=17, fo=Math.round(world*1.5)%fs;
-    for(var v=-fs;v<W+fs;v+=fs){
-      var bx=v-fo;
-      ctx.fillRect(bx,H-9,3,9);
-      ctx.fillRect(bx+5,H-14,2,14);
-      ctx.fillRect(bx+9,H-7,3,7);
-    }
-
-    // drifting embers
-    for(var m=0;m<embers.length;m++){
-      var em=embers[m];
-      var ex=((em.x*W-world*0.35+Math.sin(t*0.02+em.r)*9)%W+W)%W;
-      var ey=waterBot-((t*em.s+em.y*400)%(H*0.55));
-      ctx.fillStyle='rgba(255,200,110,'+(0.15+0.4*Math.abs(Math.sin(t*0.04+em.r))).toFixed(3)+')';
-      ctx.fillRect(Math.round(ex),Math.round(ey),1,1);
-    }
-  }
-
-  function setScrim(){
-    var sc=Math.min(1,(window.pageYOffset||0)/(window.innerHeight*0.8));
-    scrim.style.opacity=(sc*0.72).toFixed(3);
-  }
-
-  var t=0;
-  function loop(){ t++; draw(t); setScrim(); requestAnimationFrame(loop); }
-
-  try {
-    window.addEventListener('resize',function(){
-      try { resize(); if(reduce) draw(0); } catch(e){}
-    });
-    resize();
-
-    if(reduce){
-      draw(0); setScrim();
-      window.addEventListener('scroll',function(){
-        try { setScrim(); draw(0); } catch(e){}
-      },{passive:true});
-    } else {
-      loop();
-    }
-  } catch(err){
-    // canvas unavailable — hide it and let the CSS sunset stand in
-    cv.style.display='none';
-    if(window.console) console.warn('scene disabled:', err);
-  }
-})();
-</script>
 </body>
 </html>
